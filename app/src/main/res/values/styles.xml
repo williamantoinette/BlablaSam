@@ -28,10 +28,10 @@
         <!-- Nav Drawer List Item Icons -->
         <!-- Keep them in order as the titles are in -->
         <array name="nav_drawer_icons">
-            <item>@drawable/ic_home</item>
-            <item>@drawable/ic_home</item>
-            <item>@drawable/ic_home</item>
-            <item>@drawable/ic_home</item>
+            <item>@drawable/home</item>
+            <item>@drawable/profil</item>
+            <item>@drawable/settings</item>
+            <item>@drawable/car</item>
 
 
         </array>
