@@ -1,11 +1,6 @@
 package fr.itescia.blablasam.blablasam;
 
-import fr.itescia.blablasam.blablasam.HomeFragment;
-import fr.itescia.blablasam.blablasam.R;
-
-
 import java.util.ArrayList;
-
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -21,6 +16,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+/**
+ * Main
+ */
 public class MainActivity extends Activity {
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
@@ -39,6 +37,10 @@ public class MainActivity extends Activity {
     private ArrayList<NavDrawerItem> navDrawerItems;
     private NavDrawerListAdapter adapter;
 
+    /**
+     * Initialisation du main
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,11 +87,8 @@ public class MainActivity extends Activity {
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
 
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-                R.drawable.ic_drawer, //nav menu toggle icon
-                R.string.app_name, // nav drawer open - description for accessibility
-                R.string.app_name // nav drawer close - description for accessibility
-        ) {
+        // this + nav menu toggle icon + nav drawer open - description for accessibility + nav drawer close - description for accessibility
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_drawer, R.string.app_name, R.string.app_name){
             public void onDrawerClosed(View view) {
                 getActionBar().setTitle(mTitle);
                 // calling onPrepareOptionsMenu() to show action bar icons
@@ -144,7 +143,7 @@ public class MainActivity extends Activity {
         }
     }
 
-    /* *
+    /**
      * Called when invalidateOptionsMenu() is triggered
      */
     @Override
@@ -157,7 +156,7 @@ public class MainActivity extends Activity {
 
     /**
      * Diplaying fragment view for selected nav drawer list item
-     * */
+     */
     private void displayView(int position) {
         // update the main content by replacing fragments
         Fragment fragment = null;
@@ -187,8 +186,7 @@ public class MainActivity extends Activity {
 
         if (fragment != null) {
             FragmentManager fragmentManager = getFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.frame_container, fragment).commit();
+            fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).commit();
 
             // update selected item and title, then close the drawer
             mDrawerList.setItemChecked(position, true);
@@ -211,7 +209,6 @@ public class MainActivity extends Activity {
      * When using the ActionBarDrawerToggle, you must call it during
      * onPostCreate() and onConfigurationChanged()...
      */
-
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
