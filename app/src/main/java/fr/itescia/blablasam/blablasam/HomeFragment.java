@@ -1,7 +1,9 @@
 package fr.itescia.blablasam.blablasam;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,18 +47,25 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         try {
+            Fragment fragment = null;
             switch (v.getId()) {
                 case R.id.btnConnexion:
-                    Toast.makeText(v.getContext(), "Connexion", Toast.LENGTH_SHORT).show();
+                    fragment = new ConnexionFragment();
                     break;
 
                 case R.id.btnInscription:
-                    Toast.makeText(getActivity(), "Inscription", Toast.LENGTH_SHORT).show();
+                    fragment = new InscriptionFragment();
                     break;
             }
+
+            if (fragment != null) {
+                FragmentManager fragmentManager = getFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).commit();
+            } else {
+                Log.e("MainActivity", "Error in creating fragment");
+            }
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex){
             System.out.println(ex.getMessage());
         }
 

@@ -12,7 +12,10 @@ public class Utilisateur{
     private String dateDeNaissance;
     private String dateInscription;
     private Adresse adresse;
+    private String adresseBis;
     private boolean statut;
+    private String login;
+    private String password;
 
     /**
      * Constructeur par défaut
@@ -27,18 +30,20 @@ public class Utilisateur{
      * @param nom
      * @param prenom
      * @param dateDeNaissance
-     * @param adresse
+     * @param adresseBis
      */
-    public Utilisateur(Integer id, String nom, String prenom, String dateDeNaissance, Adresse adresse){
+    public Utilisateur(Integer id, String nom, String prenom, String dateDeNaissance, String adresseBis, String login, String password){
         this._id = id;
         this.nom = nom;
         this.prenom = prenom;
         this.dateDeNaissance = dateDeNaissance;
         Date date = new Date();
-        String maDate = "" + date.getYear() + "" + date.getMonth() + "" + date.getDay();
-        this.dateDeNaissance = maDate;
-        this.adresse = null;
+        String maDate = "" + date.getYear() + " " + date.getMonth() +  "" + date.getDay();
+        this.dateDeNaissance = maDate.trim();
+        this.adresseBis = adresseBis;
         this.statut = true;
+        this.login = login;
+        this.password = password;
     }
 
     // Getter - Setter
@@ -98,4 +103,27 @@ public class Utilisateur{
         this.statut = statut;
     }
 
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getAdresseBis() {
+        return adresseBis;
+    }
+
+    public void setAdresseBis(String adresseBis) {
+        this.adresseBis = adresseBis;
+    }
 }

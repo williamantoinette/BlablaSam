@@ -61,8 +61,11 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
             //TODO Ajouter l'id de l'adresse
 //            values.put("adresse", utilisateur.getAdresse().get_id());
+            values.put("adresse", utilisateur.getAdresseBis());
 
             values.put("statut", utilisateur.isStatut());
+            values.put("login", utilisateur.getLogin());
+            values.put("password", utilisateur.getPassword());
             this.insertDB(TABLE_UTILISATEUR, values);
         }catch (Exception ex){
             System.err.println(ex.getMessage());
@@ -157,8 +160,10 @@ public class MyDBHandler extends SQLiteOpenHelper {
                 "prenom TEXT, " +
                 "dateDeNaissance TEXT, " +
                 "dateInscription TEXT, " +
-                "adresse INTEGER, " +
-                "statut TEXT)";
+                "adresse TEXT, " +
+                "statut TEXT, " +
+                "login TEXT, " +
+                "password TEXT)";
 
         String CREATE_TABLE_TRAJET= "CREATE TABLE " + TABLE_TRAJET + "(" +
                 COLUMN_ID + " INTEGER PRIMARY KEY," +
