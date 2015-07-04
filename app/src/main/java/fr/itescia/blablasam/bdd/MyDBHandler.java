@@ -147,7 +147,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_TABLE_ADRESSE = "CREATE TABLE " + TABLE_ADRESSE + "(" +
-                COLUMN_ID + " INTEGER PRIMARY KEY, " +
+                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "numero INTEGER, " +
                 "rue TEXT, " +
                 "ville TEXT, " +
@@ -155,18 +155,18 @@ public class MyDBHandler extends SQLiteOpenHelper {
                 "pays TEXT)";
 
         String CREATE_TABLE_UTILISATEUR = "CREATE TABLE " + TABLE_UTILISATEUR + "(" +
-                COLUMN_ID + " INTEGER PRIMARY KEY," +
+                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "nom TEXT," +
                 "prenom TEXT, " +
                 "dateDeNaissance TEXT, " +
                 "dateInscription TEXT, " +
                 "adresse TEXT, " +
                 "statut TEXT, " +
-                "login TEXT, " +
-                "password TEXT)";
+                "login TEXT NOT NULL, " +
+                "password TEXT NOT NULL)";
 
-        String CREATE_TABLE_TRAJET= "CREATE TABLE " + TABLE_TRAJET + "(" +
-                COLUMN_ID + " INTEGER PRIMARY KEY," +
+        String CREATE_TABLE_TRAJET = "CREATE TABLE " + TABLE_TRAJET + "(" +
+                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "depart INTEGER," +
                 "destination INTEGER, " +
                 "conducteur INTEGER, " +
@@ -187,6 +187,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_UTILISATEUR);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ADRESSE);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_TRAJET);
         onCreate(db);
     }
 
