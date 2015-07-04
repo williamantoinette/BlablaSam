@@ -65,17 +65,24 @@ public class InscriptionFragment extends Fragment implements View.OnClickListene
 
                 // Création de l'utilisateur
                 MyDBHandler dbHandler = new MyDBHandler(v.getContext(), null, null, 1);
-                Utilisateur utilisateur = new Utilisateur(1, nom, prenom, dateDeNaissance, adresse, login, pwd);
-                dbHandler.addUtilisateur(utilisateur);
+                Utilisateur utilisateur = new Utilisateur(nom, prenom, dateDeNaissance, adresse, login, pwd);
 
-                Toast.makeText(v.getContext(), "Création du compte ok", Toast.LENGTH_SHORT).show();
+                // On vérifie si l'utilisateur "login" n'existe pas
+                Utilisateur verif = dbHandler.findUtilisateur(login);
+                if(verif==null){
+                    dbHandler.addUtilisateur(utilisateur);
+                    Toast.makeText(v.getContext(), "Création du compte ok", Toast.LENGTH_SHORT).show();
 
-                // Retour à la page d'accueil
-                Fragment fragment = new HomeFragment();
-                if(fragment!=null) {
-                    FragmentManager fragmentManager = getFragmentManager();
-                    fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).commit();
+                    // Retour à la page d'accueil
+                    Fragment fragment = new HomeFragment();
+                    if(fragment!=null) {
+                        FragmentManager fragmentManager = getFragmentManager();
+                        fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).commit();
+                    }
+                } else {
+                    Toast.makeText(v.getContext(), "Login déjà existant", Toast.LENGTH_SHORT).show();
                 }
+
                 break;
             default:
                 break;

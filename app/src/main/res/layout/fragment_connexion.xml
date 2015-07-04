@@ -9,11 +9,66 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Connexion"
-        android:id="@+id/textView3"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="179dp"
+        android:id="@+id/textViewConnexion"
         android:gravity="center"
         android:textSize="35dp"
-        android:textColor="#FFF"/>
+        android:textColor="#FFF"
+        android:layout_alignParentStart="true" />
+
+    <!-- Login -->
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Login"
+        android:id="@+id/textViewLogin"
+        android:textSize="20dp"
+        android:textColor="#FFF"
+        android:password="false"
+        android:layout_marginTop="53dp"
+        android:layout_below="@+id/textViewConnexion"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:ems="10"
+        android:id="@+id/editTextLogin"
+        android:textColor="#FFF"
+        android:layout_below="@+id/textViewLogin"
+        android:layout_alignParentStart="true" />
+
+    <!-- Mot de passe -->
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Mot de passe"
+        android:id="@+id/textViewPwd"
+        android:textSize="20dp"
+        android:textColor="#FFF"
+        android:password="false"
+        android:layout_below="@+id/editTextLogin"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:id="@+id/editTextPwd"
+        android:password="true"
+        android:textColor="#FFF"
+        android:layout_below="@+id/textViewPwd"
+        android:layout_alignParentStart="true" />
+
+    <!-- Valider -->
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Se connecter"
+        android:id="@+id/buttonConnexion"
+        android:layout_below="@+id/editTextPwd"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="75dp" />
+
 </RelativeLayout>

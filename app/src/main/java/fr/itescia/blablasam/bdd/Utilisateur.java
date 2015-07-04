@@ -26,14 +26,12 @@ public class Utilisateur{
 
     /**
      * Constructeur avec arguments
-     * @param id
      * @param nom
      * @param prenom
      * @param dateDeNaissance
      * @param adresseBis
      */
-    public Utilisateur(Integer id, String nom, String prenom, String dateDeNaissance, String adresseBis, String login, String password){
-        this._id = id;
+    public Utilisateur(String nom, String prenom, String dateDeNaissance, String adresseBis, String login, String password){
         this.nom = nom;
         this.prenom = prenom;
         this.dateDeNaissance = dateDeNaissance;

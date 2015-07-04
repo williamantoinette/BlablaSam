@@ -5,6 +5,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.content.Context;
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.util.Log;
+import android.widget.Toast;
 
 /**
  * Classe permettant la gestion de la base de données
@@ -60,7 +62,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
             values.put("dateInscription", utilisateur.getDateInscription());
 
             //TODO Ajouter l'id de l'adresse
-//            values.put("adresse", utilisateur.getAdresse().get_id());
+            // values.put("adresse", utilisateur.getAdresse().get_id());
             values.put("adresse", utilisateur.getAdresseBis());
 
             values.put("statut", utilisateur.isStatut());
@@ -93,23 +95,25 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
     /**
      * Recherche un utilisateur
-     * @param nom
+     * @param login
      * @return l'utilisateur recherché
      */
-    public Utilisateur findUtilisateur(String nom) {
-        String query = "SELECT * FROM " + TABLE_UTILISATEUR + " WHERE " + "nom" + " =  \"" + nom + "\"";
+    public Utilisateur findUtilisateur(String login) {
+        String query = "SELECT * FROM " + TABLE_UTILISATEUR + " WHERE " + "login" + " =  \"" + login + "\"";
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
         Utilisateur utilisateur = new Utilisateur();
         if (cursor.moveToFirst()) {
             cursor.moveToFirst();
+            utilisateur.setLogin(login);
             utilisateur.set_id(Integer.parseInt(cursor.getString(0)));
             utilisateur.setNom(cursor.getString(1));
             utilisateur.setPrenom(cursor.getString(2));
             utilisateur.setDateDeNaissance(cursor.getString(3));
             utilisateur.setDateInscription(cursor.getString(4));
-//            utilisateur.setAdresse(cursor.getString(5));
-//            utilisateur.setStatut(cursor.getString(5));
+            utilisateur.setAdresseBis(cursor.getString(5));
+            utilisateur.setStatut(Boolean.parseBoolean(cursor.getString(6)));
+            utilisateur.setPassword(cursor.getString(7));
             cursor.close();
         } else {
             utilisateur = null;
