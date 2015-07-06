@@ -2,34 +2,14 @@ package fr.itescia.blablasam.blablasam;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
-
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.HttpURLConnection;
-import java.net.InetAddress;
-import java.net.URI;
-import java.net.URL;
-import java.net.URLConnection;
-
 import fr.itescia.blablasam.bdd.Authentification;
 import fr.itescia.blablasam.bdd.AuthentificationCallback;
 import fr.itescia.blablasam.bdd.MyDBHandler;
@@ -58,18 +38,6 @@ public class ConnexionFragment extends Fragment implements View.OnClickListener{
 
         Button buttonConnexion = (Button)rootView.findViewById(R.id.buttonConnexion);
         buttonConnexion.setOnClickListener(this);
-        try
-        {
-            //socketEnvoi = new DatagramSocket(8888);
-            //socketReception = new DatagramSocket(8585);
-        }
-        catch (Exception ex)
-        {
-
-        }
-
-
-
 
         return rootView;
     }
@@ -82,13 +50,7 @@ public class ConnexionFragment extends Fragment implements View.OnClickListener{
     public void onClick(View v) {
         try{
             switch (v.getId()){
-
-
-
-
                 case R.id.buttonConnexion: // L'utilisateur souhaite se connecter
-
-
                     // Login
                     EditText editTextLogin = (EditText)getActivity().findViewById(R.id.editTextLogin);
                     String login = editTextLogin.getText().toString();
@@ -104,9 +66,6 @@ public class ConnexionFragment extends Fragment implements View.OnClickListener{
                     AuthentificationCallback authCallback = new AuthentificationCallback(getActivity(),MainActivity.getSocketReception());
                     Thread thread_callback = new Thread(authCallback);
                     thread_callback.start();
-
-
-
 
 
                     // On cherche l'utilisateur "login"
@@ -136,14 +95,9 @@ public class ConnexionFragment extends Fragment implements View.OnClickListener{
                     break;
                 default:
                     break;
-
-
-
             }
         } catch (Exception ex){
-            //Log.e("err", ex.getMessage());
             System.out.println("Error : "+ ex);
         }
-
     }
 }

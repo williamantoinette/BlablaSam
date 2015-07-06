@@ -46,10 +46,6 @@ public class InscriptionFragment extends Fragment implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.buttonValider:
-
-
-
-
                 // On récupère les valeurs saisies
                 EditText editTextLogin = (EditText)getActivity().findViewById(R.id.editTextLogin);
                 String login = editTextLogin.getText().toString();
@@ -74,15 +70,13 @@ public class InscriptionFragment extends Fragment implements View.OnClickListene
                 Utilisateur utilisateur = new Utilisateur(nom, prenom, dateDeNaissance, adresse, login, pwd);
 
                 try {
-
                     Inscription inscription = new Inscription(utilisateur.getNom(), utilisateur.getPrenom(), utilisateur.getAdresseBis(), utilisateur.getDateDeNaissance(), utilisateur.getLogin(), utilisateur.getPassword(), MainActivity.getSocketEnvoi());
                     Thread thread_inscription = new Thread(inscription);
                     thread_inscription.start();
+                } catch(Exception ex) {
+                    System.out.println(ex.getMessage());
                 }
-                catch(Exception ex)
-                {
 
-                }
                 // On vérifie si l'utilisateur "login" n'existe pas
                 Utilisateur verif = dbHandler.findUtilisateur(login);
                 if(verif==null){
@@ -98,7 +92,6 @@ public class InscriptionFragment extends Fragment implements View.OnClickListene
                 } else {
                     Toast.makeText(v.getContext(), "Login déjà existant", Toast.LENGTH_SHORT).show();
                 }
-
                 break;
             default:
                 break;

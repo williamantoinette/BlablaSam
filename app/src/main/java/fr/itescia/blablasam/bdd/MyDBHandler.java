@@ -5,8 +5,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.content.Context;
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.util.Log;
-import android.widget.Toast;
 
 /**
  * Classe permettant la gestion de la base de données
