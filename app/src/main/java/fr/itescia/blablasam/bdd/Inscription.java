@@ -29,7 +29,7 @@ public class Inscription implements Runnable {
     @Override
     public void run() {
         try{
-            InetAddress ip = InetAddress.getByName("192.168.10.21");
+            InetAddress ip = InetAddress.getByName(Server.ServerIP);
             String user_password = this.operation +";"+ this.nom +";"+ this.prenom +";" + this.adresse +";" + this.DateNaissance +";" + this.login+ ";" + this.password;
             byte[] sendData = new byte[1024];
 

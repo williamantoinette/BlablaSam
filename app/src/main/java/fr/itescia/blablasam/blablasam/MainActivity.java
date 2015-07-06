@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.os.Bundle;
@@ -199,7 +200,9 @@ public class MainActivity extends Activity {
                 fragment = new SearchActivity();
                 break;
             case 2:
-                //fragment = new PhotosFragment();
+                //fragment = new MapFragment();
+
+                //this.startActivity(new Intent(this, MapFragment.class));
                 break;
             case 3:
                 //fragment = new CommunityFragment();
@@ -216,8 +219,8 @@ public class MainActivity extends Activity {
         }
 
         if (fragment != null) {
-            FragmentManager fragmentManager = getFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).commit();
+            //FragmentManager fragmentManager = getFragmentManager();
+            //fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).commit();
 
             // update selected item and title, then close the drawer
             mDrawerList.setItemChecked(position, true);
