@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import fr.itescia.blablasam.bdd.Inscription;
 import fr.itescia.blablasam.bdd.MyDBHandler;
 import fr.itescia.blablasam.bdd.Utilisateur;
 
@@ -44,6 +46,10 @@ public class InscriptionFragment extends Fragment implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.buttonValider:
+
+
+
+
                 // On récupère les valeurs saisies
                 EditText editTextLogin = (EditText)getActivity().findViewById(R.id.editTextLogin);
                 String login = editTextLogin.getText().toString();
@@ -67,6 +73,16 @@ public class InscriptionFragment extends Fragment implements View.OnClickListene
                 MyDBHandler dbHandler = new MyDBHandler(v.getContext(), null, null, 1);
                 Utilisateur utilisateur = new Utilisateur(nom, prenom, dateDeNaissance, adresse, login, pwd);
 
+                try {
+
+                    Inscription inscription = new Inscription(utilisateur.getNom(), utilisateur.getPrenom(), utilisateur.getAdresseBis(), utilisateur.getDateDeNaissance(), utilisateur.getLogin(), utilisateur.getPassword(), MainActivity.getSocketEnvoi());
+                    Thread thread_inscription = new Thread(inscription);
+                    thread_inscription.start();
+                }
+                catch(Exception ex)
+                {
+
+                }
                 // On vérifie si l'utilisateur "login" n'existe pas
                 Utilisateur verif = dbHandler.findUtilisateur(login);
                 if(verif==null){

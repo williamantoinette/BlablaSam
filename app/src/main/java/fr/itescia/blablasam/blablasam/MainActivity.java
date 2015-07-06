@@ -1,5 +1,6 @@
 package fr.itescia.blablasam.blablasam;
 
+import java.net.DatagramSocket;
 import java.util.ArrayList;
 import android.app.Activity;
 import android.app.Fragment;
@@ -23,6 +24,36 @@ public class MainActivity extends Activity {
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
+
+
+    private static DatagramSocket socketEnvoi;
+    private  static DatagramSocket socketReception;
+
+    public static DatagramSocket getSocketEnvoi() throws Exception
+    {
+        if(socketEnvoi == null)
+        {
+            socketEnvoi = new DatagramSocket(8888);
+            return socketEnvoi;
+        }
+        else
+        {
+            return socketEnvoi;
+        }
+    }
+
+    public static DatagramSocket getSocketReception() throws Exception
+    {
+        if(socketReception == null)
+        {
+            socketReception = new DatagramSocket(8585);
+            return socketReception;
+        }
+        else
+        {
+            return socketReception;
+        }
+    }
 
     // nav drawer title
     private CharSequence mDrawerTitle;

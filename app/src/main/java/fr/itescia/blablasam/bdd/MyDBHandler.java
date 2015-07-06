@@ -54,7 +54,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
      */
     public void addUtilisateur(Utilisateur utilisateur){
         try{
-            System.out.println("insert user");
+            //System.out.println("insert user");
             ContentValues values = new ContentValues();
             values.put("nom", utilisateur.getNom());
             values.put("prenom", utilisateur.getPrenom());
@@ -80,7 +80,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
      */
     public void addAdresse(Adresse adresse) {
         try{
-            System.out.println("insert adresse");
+            //System.out.println("insert adresse");
             ContentValues values = new ContentValues();
             values.put("numero", adresse.getNumero());
             values.put("rue", adresse.getRue());
