@@ -43,15 +43,11 @@ public class MainActivity extends Activity {
         }
     }
 
-    public static DatagramSocket getSocketReception() throws Exception
-    {
-        if(socketReception == null)
-        {
+    public static DatagramSocket getSocketReception() throws Exception{
+        if(socketReception == null){
             socketReception = new DatagramSocket(8585);
             return socketReception;
-        }
-        else
-        {
+        } else {
             return socketReception;
         }
     }
@@ -94,18 +90,11 @@ public class MainActivity extends Activity {
 
         //Accueil
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[0], navMenuIcons.getResourceId(0, -1)));
-
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[1], navMenuIcons.getResourceId(1, -1)));
-
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[2], navMenuIcons.getResourceId(2, -1)));
-
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons.getResourceId(3, -1)));
-
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[4], navMenuIcons.getResourceId(4, -1)));
-
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1)));
-
-
 
         // Recycle the typed array
         navMenuIcons.recycle();
@@ -146,11 +135,9 @@ public class MainActivity extends Activity {
     /**
      * Slide menu item click listener
      * */
-    private class SlideMenuClickListener implements
-            ListView.OnItemClickListener {
+    private class SlideMenuClickListener implements ListView.OnItemClickListener {
         @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position,
-                                long id) {
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             // display view for selected nav drawer item
             displayView(position);
         }
@@ -199,25 +186,20 @@ public class MainActivity extends Activity {
                 fragment = new HomeFragment();
                 break;
             case 1:
-
+                fragment = new ConnexionFragment();
                 break;
             case 2:
-
-
-
+//                fragment = new EspacePersoFragment();
                 break;
             case 3:
-
+                fragment = new MesTrajetsFragment();
                 break;
             case 4:
-
-               fragment = new SearchActivity();
-
+                fragment = new SearchActivity();
                 break;
             case 5:
-
+                fragment = new ProposerTrajetActivity();
                 break;
-
             default:
                 break;
         }

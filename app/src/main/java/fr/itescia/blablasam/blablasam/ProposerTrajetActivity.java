@@ -12,6 +12,7 @@ import android.widget.Button;
  */
 public class ProposerTrajetActivity extends Fragment implements View.OnClickListener{
 
+    //TODO Renommer la classe en ProposerTrajetFragment
     /**
      * Initialisation du fragment
      * @param inflater

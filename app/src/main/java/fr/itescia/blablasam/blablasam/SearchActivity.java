@@ -1,8 +1,8 @@
 package  fr.itescia.blablasam.blablasam;
+
 import android.app.DatePickerDialog;
 import android.app.Fragment;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -29,12 +28,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class SearchActivity extends Fragment
-        implements
-        GoogleApiClient.OnConnectionFailedListener,
-        GoogleApiClient.ConnectionCallbacks,
-        View.OnClickListener {
+public class SearchActivity extends Fragment implements GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, View.OnClickListener {
 
+    //TODO Renommer la classe en SearchFragment
     //Gestion de la date du trajet
     private DatePickerDialog dateTrajet;
     private SimpleDateFormat dateFormatter;
