@@ -45,7 +45,8 @@ public class AuthentificationCallback implements Runnable {
                         @Override
                         public void run() {
                             Toast.makeText(activity,"Connexion OK ",Toast.LENGTH_LONG).show();
-                            Fragment fragment = new SearchActivity();
+                            Fragment fragment = new Fragment();
+                            /// TODO appeler la view Connexion Fragment
                             if(fragment!=null) {
                                 FragmentManager fragmentManager = activity.getFragmentManager();
                                 fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).commit();

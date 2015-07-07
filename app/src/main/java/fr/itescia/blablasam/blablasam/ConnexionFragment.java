@@ -79,7 +79,7 @@ public class ConnexionFragment extends Fragment implements View.OnClickListener{
                             // Mot de passe ok : utilisateur connecté
                             Toast.makeText(v.getContext(), "Connecté", Toast.LENGTH_SHORT).show();
                             // Connexion
-                            Fragment fragment = new SearchActivity();
+                            Fragment fragment = new Fragment();
                             if(fragment!=null) {
                                 FragmentManager fragmentManager = getFragmentManager();
                                 fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).commit();
