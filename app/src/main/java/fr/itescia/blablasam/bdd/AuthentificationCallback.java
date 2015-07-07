@@ -48,7 +48,7 @@ public class AuthentificationCallback implements Runnable {
                             Fragment fragment = new SearchActivity();
                             if(fragment!=null) {
                                 FragmentManager fragmentManager = activity.getFragmentManager();
-                                fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).commit();
+//                                fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).commit();
                             }
                         }
                     });

@@ -5,7 +5,12 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="MaterialTheme" parent="android:Theme.Material.Light.DarkActionBar">
+    <!--<style name="MaterialTheme" parent="android:Theme.Material.Light.DarkActionBar">-->
+        <!--&lt;!&ndash; Customize your theme here. &ndash;&gt;-->
+
+    <!--</style>-->
+
+    <style name="MaterialTheme" parent="Theme.AppCompat">
         <!-- Customize your theme here. -->
 
     </style>

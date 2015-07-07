@@ -46,28 +46,28 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
      */
     @Override
     public void onClick(View v) {
-        try {
-            Fragment fragment = null;
-            switch (v.getId()) {
-                case R.id.btnConnexion:
-                    fragment = new ConnexionFragment();
-                    break;
-
-                case R.id.btnInscription:
-                    fragment = new InscriptionFragment();
-                    break;
-            }
-
-            if (fragment != null) {
-                FragmentManager fragmentManager = getFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).commit();
-            } else {
-                Log.e("MainActivity", "Error in creating fragment");
-            }
-        }
-        catch (Exception ex){
-            System.out.println(ex.getMessage());
-        }
+//        try {
+//            Fragment fragment = null;
+//            switch (v.getId()) {
+//                case R.id.btnConnexion:
+//                    fragment = new ConnexionFragment();
+//                    break;
+//
+//                case R.id.btnInscription:
+//                    fragment = new InscriptionFragment();
+//                    break;
+//            }
+//
+//            if (fragment != null) {
+//                FragmentManager fragmentManager = getFragmentManager();
+//                fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).commit();
+//            } else {
+//                Log.e("MainActivity", "Error in creating fragment");
+//            }
+//        }
+//        catch (Exception ex){
+//            System.out.println(ex.getMessage());
+//        }
 
     }
 }
