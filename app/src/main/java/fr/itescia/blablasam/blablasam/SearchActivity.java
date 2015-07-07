@@ -1,12 +1,16 @@
 package  fr.itescia.blablasam.blablasam;
 import android.app.DatePickerDialog;
+import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.text.InputType;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -25,7 +29,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class SearchActivity extends FragmentActivity
+public class SearchActivity extends Fragment
         implements
         GoogleApiClient.OnConnectionFailedListener,
         GoogleApiClient.ConnectionCallbacks,
@@ -46,37 +50,35 @@ public class SearchActivity extends FragmentActivity
             new LatLng(48.856614, 2.0), new LatLng(49, 2.5));
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.activity_search, container, false);
 
         dateFormatter = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
 
         /* Google Auto complete API */
-        mGoogleApiClient = new GoogleApiClient.Builder(SearchActivity.this)
+        mGoogleApiClient = new GoogleApiClient.Builder(this.getActivity())
                 .addApi(Places.GEO_DATA_API)
-                .enableAutoManage(this, GOOGLE_API_CLIENT_ID, this)
+                //.enableAutoManage(this.getActivity(), GOOGLE_API_CLIENT_ID, this)
                 .addConnectionCallbacks(this)
                 .build();
-        mAutocompleteTextView = (AutoCompleteTextView) findViewById(R.id
-                .LieuTrajet);
+        mAutocompleteTextView = (AutoCompleteTextView)rootView.findViewById(R.id.LieuTrajet);
         mAutocompleteTextView.setThreshold(3);
 
         mAutocompleteTextView.setOnItemClickListener(mAutocompleteClickListener);
-        mPlaceArrayAdapter = new PlaceArrayAdapter(this, android.R.layout.simple_list_item_1,
+        mPlaceArrayAdapter = new PlaceArrayAdapter(this.getActivity(), android.R.layout.simple_list_item_1,
                 BOUND_PARIS, null);
         mAutocompleteTextView.setAdapter(mPlaceArrayAdapter);
 
 
         /* Fin auto complete API */
 
-        dateTxtEdit = (EditText) findViewById(R.id.dateTrajet);
+        dateTxtEdit = (EditText)rootView.findViewById(R.id.dateTrajet);
         dateTxtEdit.setInputType(InputType.TYPE_NULL);
 
         setDateTimeField();
 
 
-
+        return rootView;
     }
 
     private AdapterView.OnItemClickListener mAutocompleteClickListener
@@ -125,7 +127,7 @@ public class SearchActivity extends FragmentActivity
         Log.e(LOG_TAG, "Google Places API connection failed with error code: "
                 + connectionResult.getErrorCode());
 
-        Toast.makeText(this,
+        Toast.makeText(this.getActivity(),
                 "Google Places API connection failed with error code:" +
                         connectionResult.getErrorCode(),
                 Toast.LENGTH_LONG).show();
@@ -143,7 +145,7 @@ public class SearchActivity extends FragmentActivity
 
 
         Calendar newCalendar = Calendar.getInstance();
-        dateTrajet = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+        dateTrajet = new DatePickerDialog(this.getActivity(), new DatePickerDialog.OnDateSetListener() {
 
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 Calendar newDate = Calendar.getInstance();

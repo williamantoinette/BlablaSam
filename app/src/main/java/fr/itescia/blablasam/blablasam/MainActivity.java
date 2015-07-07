@@ -211,8 +211,7 @@ public class MainActivity extends Activity {
                 break;
             case 4:
 
-                Intent nextPage = new Intent(this,SearchActivity.class);
-                this.startActivity(nextPage);
+               fragment = new SearchActivity();
 
                 break;
             case 5:
