@@ -147,7 +147,7 @@
         android:layout_below="@+id/editTextDateDeNaissance"
         android:layout_alignParentStart="true" />
 
-    <EditText
+    <AutoCompleteTextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:inputType="textPostalAddress"

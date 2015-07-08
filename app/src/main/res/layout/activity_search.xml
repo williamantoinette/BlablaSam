@@ -7,7 +7,8 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity"
-    android:background="@drawable/background_form">
+    android:background="@drawable/background_form"
+    >
 
     <AutoCompleteTextView
         android:id="@+id/LieuTrajet"
@@ -16,7 +17,7 @@
         android:layout_below="@+id/textView3"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="53dp"
-        android:hint="Sélectionner un lieu"
+        android:hint="Lieu de la boite de nuit"
         />
 
     <TextView
@@ -33,9 +34,11 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/villeArrive"
-        android:hint="Ville"
+        android:hint="Ville de retour"
+        android:layout_marginTop="115dp"
         android:layout_below="@+id/dateTrajet"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentStart="true"
+         />
 
     <EditText
         android:layout_width="fill_parent"
@@ -43,9 +46,41 @@
         android:inputType="date"
         android:ems="10"
         android:id="@+id/dateTrajet"
-        android:text="Sélectionner la date"
+        android:hint="Sélectionner la date"
         android:layout_below="@+id/LieuTrajet"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp" />
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:inputType="time"
+        android:ems="10"
+        android:id="@+id/HeureDebut"
+        android:hint="Heure de début estimée"
+        android:layout_below="@+id/dateTrajet"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp" />
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:inputType="time"
+        android:ems="10"
+        android:id="@+id/HeureFin"
+        android:layout_below="@+id/HeureDebut"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp"
+        android:text="Heure de fin estimée" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Rechercher"
+        android:id="@+id/btnRecherche"
+        android:layout_below="@+id/villeArrive"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="30dp" />
 
 
 </RelativeLayout>

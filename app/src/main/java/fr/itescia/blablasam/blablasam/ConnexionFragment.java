@@ -11,7 +11,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 import java.net.DatagramSocket;
 import fr.itescia.blablasam.bdd.Authentification;
-import fr.itescia.blablasam.bdd.AuthentificationCallback;
 import fr.itescia.blablasam.bdd.MyDBHandler;
 import fr.itescia.blablasam.bdd.Utilisateur;
 
@@ -59,15 +58,13 @@ public class ConnexionFragment extends Fragment implements View.OnClickListener{
                     String pwd = editTextPwd.getText().toString();
 
 
-                    Authentification auth = new Authentification(login,pwd,MainActivity.getSocketEnvoi());
+                    Authentification auth = new Authentification(login,pwd,this.getActivity());
                     Thread thread_login = new Thread(auth);
                     thread_login.start();
 
-                    AuthentificationCallback authCallback = new AuthentificationCallback(getActivity(),MainActivity.getSocketReception());
-                    Thread thread_callback = new Thread(authCallback);
-                    thread_callback.start();
 
 
+/*
                     // On cherche l'utilisateur "login"
                     MyDBHandler dbHandler = new MyDBHandler(v.getContext(), null, null, 1);
                     Utilisateur utilisateur = dbHandler.findUtilisateur(login);
@@ -91,7 +88,7 @@ public class ConnexionFragment extends Fragment implements View.OnClickListener{
                     } else {
                         // Aucun compte avec le login inscrit
                         //Toast.makeText(v.getContext(), "Aucun compte avec le login inscrit", Toast.LENGTH_SHORT).show();
-                    }
+                    }*/
                     break;
                 default:
                     break;

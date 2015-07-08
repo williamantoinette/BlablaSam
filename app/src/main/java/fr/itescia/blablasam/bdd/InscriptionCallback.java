@@ -1,3 +1,4 @@
+/*
 package fr.itescia.blablasam.bdd;
 
 import android.app.Activity;
@@ -64,3 +65,4 @@ public class InscriptionCallback implements Runnable {
         }
     }
 }
+*/

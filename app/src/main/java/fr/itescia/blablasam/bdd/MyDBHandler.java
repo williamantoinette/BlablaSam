@@ -80,7 +80,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
         try{
             //System.out.println("insert adresse");
             ContentValues values = new ContentValues();
-            values.put("numero", adresse.getNumero());
+            //values.put("numero", adresse.getNumero());
             values.put("rue", adresse.getRue());
             values.put("ville", adresse.getVille());
             values.put("codePostal", adresse.getCodePostal());

@@ -1,8 +1,8 @@
 package  fr.itescia.blablasam.blablasam;
 import android.app.DatePickerDialog;
 import android.app.Fragment;
+import android.app.TimePickerDialog;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +13,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -29,6 +30,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
+import fr.itescia.blablasam.bdd.SearchTrajet;
+
 public class SearchActivity extends Fragment
         implements
         GoogleApiClient.OnConnectionFailedListener,
@@ -39,6 +42,14 @@ public class SearchActivity extends Fragment
     private DatePickerDialog dateTrajet;
     private SimpleDateFormat dateFormatter;
     private EditText dateTxtEdit;
+    private SimpleDateFormat heureFormatter;
+
+    private TimePickerDialog heureDebut;
+    private EditText heureDebutTXT;
+
+
+    private TimePickerDialog heureFin;
+    private EditText heureFinTXT;
 
     private static final String LOG_TAG = "SearchActivity";
     private static final int GOOGLE_API_CLIENT_ID = 0;
@@ -49,19 +60,29 @@ public class SearchActivity extends Fragment
     private static final LatLngBounds BOUND_PARIS = new LatLngBounds(
             new LatLng(48.856614, 2.0), new LatLng(49, 2.5));
 
+    private EditText lieuFete;
+    private EditText dateFete;
+    //private EditText heureDebut;
+    //private EditText heureFin;
+    private EditText villeArrive;
+    private Button btnRecherche;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.activity_search, container, false);
 
+
         dateFormatter = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
+        heureFormatter = new SimpleDateFormat("hh:mm", Locale.FRANCE);
 
         /* Google Auto complete API */
         mGoogleApiClient = new GoogleApiClient.Builder(this.getActivity())
                 .addApi(Places.GEO_DATA_API)
-                //.enableAutoManage(this.getActivity(), GOOGLE_API_CLIENT_ID, this)
+                        //.enableAutoManage(this.getActivity(), GOOGLE_API_CLIENT_ID, this)
                 .addConnectionCallbacks(this)
                 .build();
-        mAutocompleteTextView = (AutoCompleteTextView)rootView.findViewById(R.id.LieuTrajet);
+        mGoogleApiClient.connect();
+        mAutocompleteTextView = (AutoCompleteTextView) rootView.findViewById(R.id.LieuTrajet);
         mAutocompleteTextView.setThreshold(3);
 
         mAutocompleteTextView.setOnItemClickListener(mAutocompleteClickListener);
@@ -72,8 +93,22 @@ public class SearchActivity extends Fragment
 
         /* Fin auto complete API */
 
-        dateTxtEdit = (EditText)rootView.findViewById(R.id.dateTrajet);
+
+        lieuFete = (EditText) rootView.findViewById(R.id.LieuTrajet);
+
+        dateTxtEdit = (EditText) rootView.findViewById(R.id.dateTrajet);
         dateTxtEdit.setInputType(InputType.TYPE_NULL);
+
+        heureDebutTXT = (EditText) rootView.findViewById(R.id.HeureDebut);
+        heureDebutTXT.setInputType(InputType.TYPE_NULL);
+
+        heureFinTXT = (EditText) rootView.findViewById(R.id.HeureFin);
+        heureFinTXT.setInputType(InputType.TYPE_NULL);
+
+        villeArrive = (EditText) rootView.findViewById(R.id.villeArrive);
+
+        btnRecherche = (Button)rootView.findViewById(R.id.btnRecherche);
+        btnRecherche.setOnClickListener(this);
 
         setDateTimeField();
 
@@ -91,7 +126,7 @@ public class SearchActivity extends Fragment
             PendingResult<PlaceBuffer> placeResult = Places.GeoDataApi
                     .getPlaceById(mGoogleApiClient, placeId);
             placeResult.setResultCallback(mUpdatePlaceDetailsCallback);
-           // Log.i(LOG_TAG, "Fetching details for ID: " + item.placeId);
+
         }
     };
 
@@ -109,8 +144,25 @@ public class SearchActivity extends Fragment
             CharSequence attributions = places.getAttributions();
 
 
-            if (attributions != null) {
+            String[] adress_element = place.getAddress().toString().split(",");
 
+
+
+
+
+            if(place.getLocale().toString().equals(Locale.FRANCE.toString().toLowerCase())) {
+                for (String e : adress_element) {
+                    System.out.println(e);
+                }
+            }
+            else
+            {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getActivity(),"Internationalisation coming soon",Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         }
     };
@@ -142,6 +194,8 @@ public class SearchActivity extends Fragment
     //Transform EditText to DatePicker
     private void setDateTimeField() {
         dateTxtEdit.setOnClickListener(this);
+        heureFinTXT.setOnClickListener(this);
+        heureDebutTXT.setOnClickListener(this);
 
 
         Calendar newCalendar = Calendar.getInstance();
@@ -153,19 +207,57 @@ public class SearchActivity extends Fragment
                 dateTxtEdit.setText(dateFormatter.format(newDate.getTime()));
             }
 
-        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+        }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
 
 
+        //Time picker pour Heure debut
+        heureDebut = new TimePickerDialog(this.getActivity(), new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+
+
+                heureDebutTXT.setText(hourOfDay + minute);
+            }
+        }, newCalendar.get(Calendar.HOUR_OF_DAY), newCalendar.get(Calendar.MINUTE), true);
+
+
+        //Time picker pour Heure fin
+        heureFin = new TimePickerDialog(this.getActivity(), new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+
+                heureFinTXT.setText(hourOfDay + ":" + minute);
+            }
+        }, newCalendar.get(Calendar.HOUR_OF_DAY), newCalendar.get(Calendar.MINUTE), true);
 
 
     }
 
     @Override
     public void onClick(View v) {
-        System.out.println("Bouton cliqué!!");
-        if(v.getId() == R.id.dateTrajet)
-        {
+        if (v.getId() == R.id.dateTrajet) {
             dateTrajet.show();
+
+        }
+        if (v.getId() == R.id.HeureDebut) {
+            //heureDebut.show();
+        }
+
+        if (v.getId() == R.id.HeureFin) {
+            heureFin.show();
+        }
+        if (v.getId() == R.id.btnRecherche) {
+            try
+            {
+                System.out.println("Recherche d'un trajet");
+                SearchTrajet trajet = new SearchTrajet("", "", "", "");
+                Thread thread_search = new Thread(trajet);
+                thread_search.start();
+            }
+            catch (Exception ex)
+            {
+                System.out.println(ex.getMessage());
+            }
 
         }
     }

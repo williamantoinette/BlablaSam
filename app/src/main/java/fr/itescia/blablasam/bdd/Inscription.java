@@ -1,9 +1,5 @@
 package fr.itescia.blablasam.bdd;
 
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-
 public class Inscription implements Runnable {
     private String login;
     private String password;
@@ -11,24 +7,48 @@ public class Inscription implements Runnable {
     private String prenom;
     private String adresse;
     private String DateNaissance;
-    private DatagramSocket socket;
-    private final int port = 8888;
-    private final String operation = "INSCRIPTION";
 
 
-    public Inscription(String nom, String prenom, String adresse, String dateNaissance,String login, String password, DatagramSocket socket){
-        this.login = login;
-        this.password = password;
-        this.nom = nom;
-        this.prenom = prenom;
-        this.adresse = adresse;
-        this.DateNaissance = dateNaissance;
-        this.socket = socket;
+
+    public Inscription(Utilisateur utilisateur){
+        this.login = utilisateur.getLogin();
+        this.password = utilisateur.getPassword();
+        this.nom = utilisateur.getNom();
+        this.prenom = utilisateur.getPrenom();
+        this.DateNaissance = utilisateur.getDateDeNaissance();
+
     }
 
     @Override
     public void run() {
-        try{
+
+        try
+        {
+            if(Server.sendGet("/inscription",
+                                     "login="+this.login +
+                                    "&password=" + this.password +
+                                    "&nom=" + this.nom +
+                                    "&prenom=" + this.nom +
+                                    "&adresse=" + this.adresse.replace(" ","_") +
+                                    "&DateNaissance=test") == "true")
+            {
+
+                //Inscription OK
+
+            }
+            else
+            {
+                // Inscription failed
+            }
+        }
+        catch (Exception ex )
+        {
+            System.out.println(ex.getMessage());
+        }
+
+
+
+      /*  try{
             InetAddress ip = InetAddress.getByName(Server.ServerIP);
             String user_password = this.operation +";"+ this.nom +";"+ this.prenom +";" + this.adresse +";" + this.DateNaissance +";" + this.login+ ";" + this.password;
             byte[] sendData = new byte[1024];
@@ -40,7 +60,7 @@ public class Inscription implements Runnable {
             System.out.println(operation +  " : envoyé");
         } catch (Exception ex ) {
             System.out.println("Err  : "+ operation +" " + ex.getMessage());
-        }
+        }*/
     }
 }
 

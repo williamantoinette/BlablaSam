@@ -1,3 +1,4 @@
+/*
 package fr.itescia.blablasam.bdd;
 
 import android.app.Activity;
@@ -6,6 +7,8 @@ import android.app.FragmentManager;
 import android.widget.Toast;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+
+import fr.itescia.blablasam.blablasam.ConnexionFragment;
 import fr.itescia.blablasam.blablasam.R;
 import fr.itescia.blablasam.blablasam.SearchActivity;
 
@@ -45,8 +48,8 @@ public class AuthentificationCallback implements Runnable {
                         @Override
                         public void run() {
                             Toast.makeText(activity,"Connexion OK ",Toast.LENGTH_LONG).show();
-                            Fragment fragment = new Fragment();
-                            /// TODO appeler la view Connexion Fragment
+                            Fragment fragment = new ConnexionFragment();
+
                             if(fragment!=null) {
                                 FragmentManager fragmentManager = activity.getFragmentManager();
                                 fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).commit();
@@ -68,3 +71,4 @@ public class AuthentificationCallback implements Runnable {
         }
     }
 }
+*/
