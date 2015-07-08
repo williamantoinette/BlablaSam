@@ -15,52 +15,87 @@
         android:textSize="35dp"
         android:textColor="#FFF"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp" />
 
     <!-- Login -->
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Login"
-        android:id="@+id/textViewLogin"
-        android:textSize="20dp"
-        android:textColor="#FFF"
-        android:password="false"
-        android:layout_below="@+id/textViewInscription"
-        android:layout_alignParentStart="true" />
-
     <EditText
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:inputType="text"
         android:ems="10"
         android:id="@+id/editTextLogin"
+        android:hint="Login"
         android:textColor="#FFF"
-        android:layout_below="@+id/textViewLogin"
-        android:layout_alignParentStart="true" />
+        android:layout_below="@+id/textViewInscription"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="20dp"/>
 
     <!-- Mot de passe -->
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Mot de passe"
-        android:id="@+id/textViewPwd"
-        android:textSize="20dp"
-        android:textColor="#FFF"
-        android:password="false"
-        android:layout_below="@+id/editTextLogin"
-        android:layout_alignParentStart="true" />
-
     <EditText
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:ems="10"
         android:id="@+id/editTextPwd"
+        android:hint="Password"
         android:password="true"
         android:textColor="#FFF"
-        android:layout_below="@+id/textViewPwd"
-        android:layout_alignParentStart="true" />
+        android:layout_below="@+id/editTextLogin"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="20dp" />
+
+    <!--Nom -->
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:ems="10"
+        android:id="@+id/editTextNom"
+        android:hint="Nom"
+        android:textColor="#FFF"
+        android:layout_below="@+id/editTextPwd"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="20dp" />
+
+    <!-- Prenom -->
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:ems="10"
+        android:id="@+id/editTextPrenom"
+        android:hint="Prénom"
+        android:textColor="#FFF"
+        android:layout_below="@+id/editTextNom"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="20dp" />
+
+    <!-- Date de naissance -->
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:inputType="date"
+        android:ems="10"
+        android:id="@+id/editTextDateDeNaissance"
+        android:hint="Date de naissance"
+        android:layout_below="@+id/editTextPrenom"
+        android:layout_alignParentStart="true"
+        android:textColor="#FFF"
+        android:layout_marginTop="20dp" />
+
+    <!-- Adresse -->
+    <AutoCompleteTextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPostalAddress"
+        android:ems="10"
+        android:id="@+id/editTextAdresse"
+        android:hint="Adresse"
+        android:textColor="#FFF"
+        android:layout_below="@+id/editTextDateDeNaissance"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="20dp" />
 
     <!-- Valider -->
     <Button
@@ -70,91 +105,5 @@
         android:id="@+id/buttonValider"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true" />
-
-    <!--Nom -->
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Nom"
-        android:id="@+id/textViewNom"
-        android:textSize="20dp"
-        android:textColor="#FFF"
-        android:password="false"
-        android:layout_below="@+id/editTextPwd"
-        android:layout_alignParentStart="true" />
-
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:inputType="text"
-        android:ems="10"
-        android:id="@+id/editTextNom"
-        android:textColor="#FFF"
-        android:layout_below="@+id/textViewNom"
-        android:layout_alignParentStart="true" />
-
-    <!-- Prenom -->
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Prénom"
-        android:id="@+id/textViewPrenom"
-        android:textSize="20dp"
-        android:textColor="#FFF"
-        android:password="false"
-        android:layout_below="@+id/editTextNom"
-        android:layout_alignParentStart="true" />
-
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:inputType="text"
-        android:ems="10"
-        android:id="@+id/editTextPrenom"
-        android:textColor="#FFF"
-        android:layout_below="@+id/textViewPrenom"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Date de naissance"
-        android:id="@+id/textViewDateDeNaissance"
-        android:textSize="20dp"
-        android:textColor="#FFF"
-        android:password="false"
-        android:layout_below="@+id/editTextPrenom"
-        android:layout_alignParentStart="true" />
-
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:inputType="date"
-        android:ems="10"
-        android:id="@+id/editTextDateDeNaissance"
-        android:layout_below="@+id/textViewDateDeNaissance"
-        android:layout_alignParentStart="true"
-        android:textColor="#FFF" />
-
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Adresse"
-        android:id="@+id/textViewAdresse"
-        android:textSize="20dp"
-        android:textColor="#FFF"
-        android:password="false"
-        android:layout_below="@+id/editTextDateDeNaissance"
-        android:layout_alignParentStart="true" />
-
-    <AutoCompleteTextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPostalAddress"
-        android:ems="10"
-        android:id="@+id/editTextAdresse"
-        android:layout_below="@+id/textViewAdresse"
-        android:layout_alignParentStart="true"
-        android:textColor="#FFF" />
 
 </RelativeLayout>

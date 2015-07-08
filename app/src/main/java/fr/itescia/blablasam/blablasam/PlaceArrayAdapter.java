@@ -1,9 +1,6 @@
 package fr.itescia.blablasam.blablasam;
 
-
-import android.app.DatePickerDialog;
 import android.content.Context;
-import android.location.Location;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
@@ -27,10 +24,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
-
-import fr.itescia.blablasam.bdd.Inscription;
 
 public class PlaceArrayAdapter extends ArrayAdapter<PlaceArrayAdapter.PlaceAutocomplete> implements Filterable {
     private static final String TAG = "PlaceArrayAdapter";
@@ -41,7 +35,6 @@ public class PlaceArrayAdapter extends ArrayAdapter<PlaceArrayAdapter.PlaceAutoc
 
     /**
      * Constructor
-     *
      * @param context  Context
      * @param resource Layout resource
      * @param bounds   Used to specify the search bounds
@@ -74,7 +67,6 @@ public class PlaceArrayAdapter extends ArrayAdapter<PlaceArrayAdapter.PlaceAutoc
     private ArrayList<PlaceAutocomplete> getPredictions(CharSequence constraint) {
         if (mGoogleApiClient != null) {
 
-
             ArrayList<Integer> filtres = new ArrayList<>();
             filtres.add(Place.TYPE_AIRPORT);
             //mPlaceFilter = AutocompleteFilter.create(filtres);
@@ -96,7 +88,6 @@ public class PlaceArrayAdapter extends ArrayAdapter<PlaceArrayAdapter.PlaceAutoc
                 autocompletePredictions.release();
 
                 return null;
-
             }
 
             Log.i(TAG, "Query completed. Received " + autocompletePredictions.getCount()

@@ -1,4 +1,5 @@
 package  fr.itescia.blablasam.blablasam;
+
 import android.app.DatePickerDialog;
 import android.app.Fragment;
 import android.app.TimePickerDialog;
@@ -10,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
@@ -32,12 +32,9 @@ import java.util.Locale;
 
 import fr.itescia.blablasam.bdd.SearchTrajet;
 
-public class SearchActivity extends Fragment
-        implements
-        GoogleApiClient.OnConnectionFailedListener,
-        GoogleApiClient.ConnectionCallbacks,
-        View.OnClickListener {
+public class SearchActivity extends Fragment implements GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, View.OnClickListener {
 
+    //TODO Renommer la classe en SearchFragment
     //Gestion de la date du trajet
     private DatePickerDialog dateTrajet;
     private SimpleDateFormat dateFormatter;
@@ -122,11 +119,9 @@ public class SearchActivity extends Fragment
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             final PlaceArrayAdapter.PlaceAutocomplete item = mPlaceArrayAdapter.getItem(position);
             final String placeId = String.valueOf(item.placeId);
-            //Log.i(LOG_TAG, "Selected: " + item.description);
             PendingResult<PlaceBuffer> placeResult = Places.GeoDataApi
                     .getPlaceById(mGoogleApiClient, placeId);
             placeResult.setResultCallback(mUpdatePlaceDetailsCallback);
-
         }
     };
 
@@ -145,18 +140,13 @@ public class SearchActivity extends Fragment
 
 
             String[] adress_element = place.getAddress().toString().split(",");
-
-
-
-
-
+            
             if(place.getLocale().toString().equals(Locale.FRANCE.toString().toLowerCase())) {
                 for (String e : adress_element) {
                     System.out.println(e);
                 }
             }
-            else
-            {
+            else {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
