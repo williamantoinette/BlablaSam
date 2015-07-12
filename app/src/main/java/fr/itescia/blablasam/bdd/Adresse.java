@@ -27,7 +27,6 @@ public class Adresse {
      */
     public Adresse(int id, String rue, String codePostal, String ville, String pays){
         this._id = id;
-
         this.rue = rue;
         this.codePostal = codePostal;
         this.ville = ville;

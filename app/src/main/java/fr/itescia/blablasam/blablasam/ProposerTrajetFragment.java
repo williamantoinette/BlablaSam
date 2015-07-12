@@ -10,7 +10,7 @@ import android.widget.Button;
 /**
  * Gestion de la proposition des trajets
  */
-public class ProposerTrajetActivity extends Fragment implements View.OnClickListener{
+public class ProposerTrajetFragment extends Fragment implements View.OnClickListener{
 
     //TODO Renommer la classe en ProposerTrajetFragment
     /**

@@ -29,16 +29,16 @@ public class Utilisateur{
      * @param nom
      * @param prenom
      * @param dateDeNaissance
-     * @param adresseBis
+
      */
-    public Utilisateur(String nom, String prenom, String dateDeNaissance, String adresseBis, String login, String password){
+    public Utilisateur(String nom, String prenom, String dateDeNaissance, Adresse adresse, String login, String password){
         this.nom = nom;
         this.prenom = prenom;
         this.dateDeNaissance = dateDeNaissance;
         Date date = new Date();
         String maDate = "" + date.getYear() + " " + date.getMonth() +  "" + date.getDay();
         this.dateDeNaissance = maDate.trim();
-        this.adresseBis = adresseBis;
+        this.adresse = adresse;
         this.statut = true;
         this.login = login;
         this.password = password;

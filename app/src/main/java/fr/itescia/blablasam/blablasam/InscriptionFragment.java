@@ -25,6 +25,7 @@ import com.google.android.gms.maps.model.LatLngBounds;
 
 import java.util.Locale;
 
+import fr.itescia.blablasam.bdd.Adresse;
 import fr.itescia.blablasam.bdd.Inscription;
 import fr.itescia.blablasam.bdd.MyDBHandler;
 import fr.itescia.blablasam.bdd.Utilisateur;
@@ -44,6 +45,8 @@ public class InscriptionFragment extends Fragment implements View.OnClickListene
     private PlaceArrayAdapter mPlaceArrayAdapter;
     private static final LatLngBounds BOUND_PARIS = new LatLngBounds(
             new LatLng(48.856614, 2.0), new LatLng(49, 2.5));
+
+    private Adresse adressePersonne = new Adresse();
 
     private View rootView;
     /**
@@ -110,16 +113,13 @@ public class InscriptionFragment extends Fragment implements View.OnClickListene
 
 
                 try {
-                    Utilisateur utilisateur = new Utilisateur(nom, prenom, dateDeNaissance, adresse, login, pwd);
-                    Inscription inscription = new Inscription(utilisateur);
+                    Utilisateur utilisateur = new Utilisateur(nom, prenom, dateDeNaissance, adressePersonne, login, pwd);
+                    Inscription inscription = new Inscription(utilisateur,getActivity());
                     Thread thread_inscription = new Thread(inscription);
                     thread_inscription.start();
 
 
 
-
-
-        /* Fin auto complete API */
                 } catch(Exception ex) {
                     System.out.println(ex.getMessage());
                 }
@@ -161,14 +161,31 @@ public class InscriptionFragment extends Fragment implements View.OnClickListene
 
             String[] adress_element = place.getAddress().toString().split(",");
 
-
-
-
-
             if(place.getLocale().toString().equals(Locale.FRANCE.toString().toLowerCase())) {
-                for (String e : adress_element) {
-                    System.out.println(e);
+
+                if(adress_element.length == 3)
+                {
+                    adressePersonne.setRue(adress_element[0]);
+                    adressePersonne.setCodePostal(adress_element[1].trim().substring(0, 5));
+                    adressePersonne.setVille(adress_element[1].replace(adressePersonne.getCodePostal(), ""));
+                    adressePersonne.setPays(adress_element[2]);
+
+
+                    System.out.println("Pays  : " + adressePersonne.getPays());
+                    System.out.println("Ville  : " + adressePersonne.getVille());
+                    System.out.println("Adresse  : " + adressePersonne.getRue());
+                    System.out.println("CP  : " + adressePersonne.getCodePostal());
                 }
+                else
+                {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getActivity(),"Adresse incomplète ou invalide ",Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+
             }
             else
             {

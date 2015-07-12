@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
@@ -17,6 +17,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import fr.itescia.blablasam.bdd.GPS;
 
 /**
  * Main
@@ -198,7 +201,25 @@ public class MainActivity extends Activity {
                 fragment = new SearchActivity();
                 break;
             case 5:
-                fragment = new ProposerTrajetActivity();
+                fragment = new ProposerTrajetFragment();
+                GPS gps = new GPS(this);
+                if(gps.canGetLocation()) {
+
+                   // Toast.makeText(this,"Lat : " + gps.getLatitude(), Toast.LENGTH_SHORT).show();
+                 Location ici = gps.getLocation();
+                    System.out.println(gps.getLatitude());
+                    System.out.println(gps.getLongitude());
+                    Location labas = new Location("");
+                    labas.setLatitude(49.03561699999999);
+                    labas.setLongitude(2.0603250000000344);
+
+                    Toast.makeText(this,"Votre destination se trouve à : + " + ( ici.distanceTo(labas) / 1000 ) + "KMS", Toast.LENGTH_SHORT).show();
+
+                }
+                else
+                {
+                    gps.showSettingsAlert();
+                }
                 break;
             default:
                 break;
