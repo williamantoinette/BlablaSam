@@ -366,8 +366,8 @@ public class ProposerTrajetFragment extends Fragment implements View.OnClickList
         intent.putExtra(CalendarContract.Events.DESCRIPTION, description);
 
         // Ajout de la date
-        long debut = convertHeureMinutes("01:30");
-        long fin = convertHeureMinutes("10:58");
+        long debut = convertHeureMinutes(editTextHeureDepart.getText().toString());
+        long fin = debut + 1800000;
         GregorianCalendar calDate = new GregorianCalendar(year, month-1, day);
         intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, calDate.getTimeInMillis() + debut);
         intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, calDate.getTimeInMillis() + fin);
