@@ -97,11 +97,20 @@
         android:id="@+id/editDetour"
         android:layout_marginTop="20dp" />
 
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:ems="10"
+        android:hint="@string/heure_depart"
+        android:id="@+id/editTextHeureDepart"
+        android:layout_marginTop="20dp" />
+
     <Button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/valider"
         android:id="@+id/buttonValider"
-        android:layout_marginTop="30dp" />
+        android:layout_marginTop="10dp" />
 
 </LinearLayout>

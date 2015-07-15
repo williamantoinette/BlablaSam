@@ -3,6 +3,7 @@ package fr.itescia.blablasam.blablasam;
 import android.app.DatePickerDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.TimePickerDialog;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -16,6 +17,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TimePicker;
 import android.widget.Toast;
 import android.content.Intent;
 import android.provider.CalendarContract;
@@ -52,6 +54,9 @@ import fr.itescia.blablasam.bdd.Utilisateur;
  * Gestion de la proposition des trajets
  */
 public class ProposerTrajetFragment extends Fragment implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks{
+
+    private EditText editTextHeureDepart;
+    private TimePickerDialog timePickerDialog;
 
     private EditText editTextDate;
     private EditText editTextDestination;
@@ -156,6 +161,9 @@ public class ProposerTrajetFragment extends Fragment implements View.OnClickList
 
         simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
 
+        editTextHeureDepart = (EditText) rootView.findViewById(R.id.editTextHeureDepart);
+        editTextHeureDepart.setInputType(InputType.TYPE_NULL);
+
         setDateTimeField();
 
         return rootView;
@@ -173,6 +181,11 @@ public class ProposerTrajetFragment extends Fragment implements View.OnClickList
                 case R.id.editTextDate:
                     datePickerDialog.show();
                     break;
+
+                case R.id.editTextHeureDepart:
+                    timePickerDialog.show();
+                    break;
+
 
                 case R.id.buttonValider:
                     Adresse depart = new Adresse();
@@ -336,16 +349,13 @@ public class ProposerTrajetFragment extends Fragment implements View.OnClickList
      */
     public void valider(){
 //        https://github.com/vogellacompany/codeexamples-android/blob/680a4068a9c9e4b6258c4d88d7d105ca51c8df81/de.vogella.android.calendarapi/src/de/vogella/android/calendarapi/MyCalendarActivity.java
-
-        System.out.println("METHODE VALIDER !!!!!");
-
         // Récupération des saisies
         String[] arrayEditTextDate = editTextDate.getText().toString().split("/");
         int day = Integer.parseInt(arrayEditTextDate[0]);
         int month = Integer.parseInt(arrayEditTextDate[1]);
         int year = Integer.parseInt(arrayEditTextDate[2]);
         String destination = editTextDestination.getText().toString();
-        String title = "Mon premier trajet";
+        String title = "Trajet BlablaSam !";
         String description = "Ne pas oublier vos co-samer";
 
         // Création d'un évenement dans l'agenda
@@ -392,6 +402,7 @@ public class ProposerTrajetFragment extends Fragment implements View.OnClickList
     private void setDateTimeField() {
         try{
             editTextDate.setOnClickListener(this);
+            editTextHeureDepart.setOnClickListener(this);
             Calendar newCalendar = Calendar.getInstance();
 
             datePickerDialog = new DatePickerDialog(this.getActivity(), new DatePickerDialog.OnDateSetListener() {
@@ -401,6 +412,14 @@ public class ProposerTrajetFragment extends Fragment implements View.OnClickList
                     editTextDate.setText(simpleDateFormat.format(newDate.getTime()));
                 }
             },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+
+            // Time picker pour l'heure de départ
+            timePickerDialog = new TimePickerDialog(this.getActivity(), new TimePickerDialog.OnTimeSetListener() {
+                @Override
+                public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                    editTextHeureDepart.setText(hourOfDay + ":" + minute);
+                }
+            }, newCalendar.get(Calendar.HOUR_OF_DAY), newCalendar.get(Calendar.MINUTE), true);
 
         } catch (Exception ex){
             System.out.println(ex.getMessage());
