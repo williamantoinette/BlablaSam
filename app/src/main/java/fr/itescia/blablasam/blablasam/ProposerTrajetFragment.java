@@ -3,6 +3,7 @@ package fr.itescia.blablasam.blablasam;
 import android.app.DatePickerDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.TimePickerDialog;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -16,6 +17,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TimePicker;
 import android.widget.Toast;
 import android.content.Intent;
 import android.provider.CalendarContract;
@@ -52,6 +54,9 @@ import fr.itescia.blablasam.bdd.Utilisateur;
  * Gestion de la proposition des trajets
  */
 public class ProposerTrajetFragment extends Fragment implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks{
+
+    private EditText editTextHeureDepart;
+    private TimePickerDialog timePickerDialog;
 
     private EditText editTextDate;
     private EditText editTextDestination;
@@ -156,6 +161,9 @@ public class ProposerTrajetFragment extends Fragment implements View.OnClickList
 
         simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
 
+        editTextHeureDepart = (EditText) rootView.findViewById(R.id.editTextHeureDepart);
+        editTextHeureDepart.setInputType(InputType.TYPE_NULL);
+
         setDateTimeField();
 
         return rootView;
@@ -174,6 +182,10 @@ public class ProposerTrajetFragment extends Fragment implements View.OnClickList
                     datePickerDialog.show();
                     break;
 
+                case R.id.editTextHeureDepart:
+                    timePickerDialog.show();
+                    break;
+                
                 case R.id.buttonValider:
                     Adresse depart = new Adresse();
                     // On affecte l'adresse de départ
@@ -244,7 +256,7 @@ public class ProposerTrajetFragment extends Fragment implements View.OnClickList
 
         }
         catch(Exception ex) {
-
+            System.out.println(ex.getMessage());
         }
 
         Thread thread_trajet = new Thread(new Runnable() {
@@ -340,7 +352,7 @@ public class ProposerTrajetFragment extends Fragment implements View.OnClickList
         int month = Integer.parseInt(arrayEditTextDate[1]);
         int year = Integer.parseInt(arrayEditTextDate[2]);
         String destination = editTextDestination.getText().toString();
-        String title = "Mon premier trajet";
+        String title = "Trajet BlablaSam !";
         String description = "Ne pas oublier vos co-samer";
 
         // Création d'un évenement dans l'agenda
@@ -351,8 +363,8 @@ public class ProposerTrajetFragment extends Fragment implements View.OnClickList
         intent.putExtra(CalendarContract.Events.DESCRIPTION, description);
 
         // Ajout de la date
-        long debut = convertHeureMinutes("01:30");
-        long fin = convertHeureMinutes("10:58");
+        long debut = convertHeureMinutes(editTextHeureDepart.getText().toString());
+        long fin = debut + 1800000;
         GregorianCalendar calDate = new GregorianCalendar(year, month-1, day);
         intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, calDate.getTimeInMillis() + debut);
         intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, calDate.getTimeInMillis() + fin);
@@ -387,6 +399,7 @@ public class ProposerTrajetFragment extends Fragment implements View.OnClickList
     private void setDateTimeField() {
         try{
             editTextDate.setOnClickListener(this);
+            editTextHeureDepart.setOnClickListener(this);
             Calendar newCalendar = Calendar.getInstance();
 
             datePickerDialog = new DatePickerDialog(this.getActivity(), new DatePickerDialog.OnDateSetListener() {
@@ -396,6 +409,14 @@ public class ProposerTrajetFragment extends Fragment implements View.OnClickList
                     editTextDate.setText(simpleDateFormat.format(newDate.getTime()));
                 }
             },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+
+            // Time picker pour l'heure de départ
+            timePickerDialog = new TimePickerDialog(this.getActivity(), new TimePickerDialog.OnTimeSetListener() {
+                @Override
+                public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                    editTextHeureDepart.setText(hourOfDay + ":" + minute);
+                }
+            }, newCalendar.get(Calendar.HOUR_OF_DAY), newCalendar.get(Calendar.MINUTE), true);
 
         } catch (Exception ex){
             System.out.println(ex.getMessage());
