@@ -17,14 +17,13 @@
         android:layout_below="@+id/textView3"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="53dp"
-        android:hint="Lieu de la boite de nuit"
-        />
+        android:hint="@string/lieu_boite"/>
 
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Rechercher un SAM"
+        android:text="@string/titre_rechercher_sam"
         android:id="@+id/textView3"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
@@ -34,11 +33,10 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/villeArrive"
-        android:hint="Ville de retour"
+        android:hint="@string/ville_retour"
         android:layout_marginTop="115dp"
         android:layout_below="@+id/dateTrajet"
-        android:layout_alignParentStart="true"
-         />
+        android:layout_alignParentStart="true"         />
 
     <EditText
         android:layout_width="fill_parent"
@@ -46,7 +44,7 @@
         android:inputType="date"
         android:ems="10"
         android:id="@+id/dateTrajet"
-        android:hint="Sélectionner la date"
+        android:hint="@string/selectionDate"
         android:layout_below="@+id/LieuTrajet"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="10dp" />
@@ -57,7 +55,7 @@
         android:inputType="time"
         android:ems="10"
         android:id="@+id/HeureDebut"
-        android:hint="Heure de début estimée"
+        android:hint="@string/heure_depart"
         android:layout_below="@+id/dateTrajet"
         android:layout_alignParentStart="true"
         android:layout_marginTop="10dp" />
@@ -71,16 +69,15 @@
         android:layout_below="@+id/HeureDebut"
         android:layout_alignParentStart="true"
         android:layout_marginTop="10dp"
-        android:text="Heure de fin estimée" />
+        android:text="@string/heure_retour" />
 
     <Button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Rechercher"
+        android:text="@string/rechercher_trajet"
         android:id="@+id/btnRecherche"
         android:layout_below="@+id/villeArrive"
         android:layout_alignParentStart="true"
         android:layout_marginTop="30dp" />
-
 
 </RelativeLayout>

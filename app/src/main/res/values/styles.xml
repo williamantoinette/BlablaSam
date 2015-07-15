@@ -7,11 +7,7 @@
 
     <style name="MaterialTheme" parent="android:Theme.Material.Light">
         <!-- Customize your theme here. -->
-
     </style>
-
-
-
 
         <!-- Nav Drawer Menu Items -->
         <string-array name="nav_drawer_items">
@@ -21,25 +17,20 @@
             <item >@string/title_trajet</item>
             <item >@string/rechercher_trajet</item>
             <item>@string/proposer_trajet</item>
-
         </string-array>
 
         <!-- Nav Drawer List Item Icons -->
         <!-- Keep them in order as the titles are in -->
         <array name="nav_drawer_icons">
             <item>@drawable/home</item>
-            <item>@drawable/profilOld</item>
+            <item>@drawable/profil</item>
             <item>@drawable/settings</item>
             <item>@drawable/car</item>
             <item>@drawable/car</item>
             <item>@drawable/car</item>
-
-
         </array>
 
         <!-- Content Description -->
         <string name="desc_list_item_icon">Item Icon</string>
-
-
 
 </resources>

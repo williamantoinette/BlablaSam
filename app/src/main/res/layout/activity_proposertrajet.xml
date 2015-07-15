@@ -6,70 +6,52 @@
     android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity"
     android:weightSum="1" android:orientation="vertical">
 
+    <!-- Titre -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Proposer un trajet"
+        android:text="@string/proposer_trajet"
         android:id="@+id/textView"
         android:layout_gravity="center_horizontal" />
 
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Départ"
-        android:id="@+id/textViewDepart"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp" />
-
+    <!-- Départ -->
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPostalAddress"
         android:ems="10"
+        android:hint="@string/depart"
         android:id="@+id/editTextDepart"
-        android:layout_gravity="center_horizontal" />
-
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Destination"
-        android:id="@+id/textViewDestination"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="30dp" />
 
+    <!-- Destination -->
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPostalAddress"
         android:ems="10"
+        android:hint="@string/destination"
         android:id="@+id/editTextDestination"
-        android:layout_gravity="center_horizontal" />
-
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Date"
-        android:id="@+id/textViewDate"
-        android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp" />
 
+    <!-- Date -->
     <EditText
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:inputType="date"
         android:ems="10"
         android:id="@+id/editTextDate"
-        android:layout_gravity="center_horizontal" />
+        android:hint="@string/selectionDate"
+        android:layout_marginTop="20dp" />
 
+    <!-- Bouton valider-->
     <Button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Valider"
+        android:text="@string/valider"
         android:id="@+id/buttonValider"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="30dp" />
 
 </LinearLayout>
