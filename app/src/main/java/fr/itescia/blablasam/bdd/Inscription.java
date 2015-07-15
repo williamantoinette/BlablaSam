@@ -60,32 +60,6 @@ public class Inscription implements Runnable {
             System.out.print("Err 1  "+ ex.getMessage());
         }
 
-      /*  try
-        {
-            if(Server.sendGet("/inscription",
-                                     "login="+this.login +
-                                    "&password=" + this.password +
-                                    "&nom=" + this.nom +
-                                    "&prenom=" + this.nom +
-                                    "&adresse=" + this.adresse.replace(" ","_") +
-                                    "&DateNaissance=test") == "true")
-            {
-
-                //Inscription OK
-
-            }
-            else
-            {
-                // Inscription failed
-            }
-        }
-        catch (Exception ex )
-        {
-            System.out.println(ex.getMessage());
-        }*/
-
-
-
 
     }
 }

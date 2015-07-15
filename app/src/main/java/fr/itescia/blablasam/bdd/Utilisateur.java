@@ -1,12 +1,14 @@
 package fr.itescia.blablasam.bdd;
 
+import com.google.gson.Gson;
+
 import java.util.Date;
 
 /**
  * Classe Utilisateur
  */
 public class Utilisateur{
-    private Integer _id;
+    private Integer id;
     private String nom;
     private String prenom;
     private String dateDeNaissance;
@@ -31,6 +33,7 @@ public class Utilisateur{
      * @param dateDeNaissance
 
      */
+
     public Utilisateur(String nom, String prenom, String dateDeNaissance, Adresse adresse, String login, String password){
         this.nom = nom;
         this.prenom = prenom;
@@ -44,13 +47,15 @@ public class Utilisateur{
         this.password = password;
     }
 
+    private static Utilisateur utilisateurConnecte;
+
     // Getter - Setter
     public Integer get_id() {
-        return _id;
+        return id;
     }
 
     public void set_id(Integer _id) {
-        this._id = _id;
+        this.id = _id;
     }
 
     public String getNom() {
@@ -124,4 +129,33 @@ public class Utilisateur{
     public void setAdresseBis(String adresseBis) {
         this.adresseBis = adresseBis;
     }
+
+
+    public static boolean isLogged()
+    {
+        if(utilisateurConnecte == null)
+        {
+            return false;
+        }
+        return  true;
+    }
+
+    public static Utilisateur getCurrentUser()
+    {
+        return utilisateurConnecte;
+    }
+
+
+
+    public static void Connexion(String auth)
+    {
+        Gson serialiseur = new Gson();
+        utilisateurConnecte = (Utilisateur)serialiseur.fromJson(auth,Utilisateur.class);
+    }
+
+    public static void Deconnexion()
+    {
+        utilisateurConnecte = null;
+    }
+
 }

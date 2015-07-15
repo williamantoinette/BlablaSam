@@ -21,6 +21,7 @@
             <item >@string/title_trajet</item>
             <item >@string/rechercher_trajet</item>
             <item>@string/proposer_trajet</item>
+            <item>@string/deconnexion</item>
 
         </string-array>
 
@@ -33,6 +34,7 @@
             <item>@drawable/car</item>
             <item>@drawable/car</item>
             <item>@drawable/car</item>
+            <item>@string/title_profil</item>
 
 
         </array>

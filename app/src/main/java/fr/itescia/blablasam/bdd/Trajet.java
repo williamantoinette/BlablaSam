@@ -1,6 +1,7 @@
 package fr.itescia.blablasam.bdd;
 
 import java.util.List;
+import java.util.Date;
 
 /**
  * Classe Trajet
@@ -11,6 +12,10 @@ public class Trajet {
     private Adresse destination;
     private Utilisateur conducteur;
     private List<Utilisateur> passagers;
+    private  int nombrePlace;
+    private int nombrePlaceRestante;
+    private int detourMax;
+    private Date Date;
 
     /**
      * Constructeur par défaut
@@ -91,4 +96,35 @@ public class Trajet {
         this.passagers = passagers;
     }
 
+    public int getNombrePlace() {
+        return nombrePlace;
+    }
+
+    public void setNombrePlace(int nombrePlace) {
+        this.nombrePlace = nombrePlace;
+    }
+
+    public int getNombrePlaceRestante() {
+        return nombrePlaceRestante;
+    }
+
+    public void setNombrePlaceRestante(int nombrePlaceRestante) {
+        this.nombrePlaceRestante = nombrePlaceRestante;
+    }
+
+    public int getDetourMax() {
+        return detourMax;
+    }
+
+    public void setDetourMax(int detourMax) {
+        this.detourMax = detourMax;
+    }
+
+    public java.util.Date getDate() {
+        return Date;
+    }
+
+    public void setDate(java.util.Date date) {
+        Date = date;
+    }
 }

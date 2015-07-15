@@ -4,7 +4,8 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity"
-    android:weightSum="1" android:orientation="vertical">
+    android:weightSum="1" android:orientation="vertical"
+    >
 
     <TextView
         android:layout_width="wrap_content"
@@ -12,64 +13,96 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Proposer un trajet"
         android:id="@+id/textView"
-        android:layout_gravity="center_horizontal" />
-
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Départ"
-        android:id="@+id/textViewDepart"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp" />
+        android:layout_marginBottom="20dp" />
 
-    <EditText
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPostalAddress"
-        android:ems="10"
-        android:id="@+id/editTextDepart"
-        android:layout_gravity="center_horizontal" />
+        android:layout_height="57dp"
+        android:layout_margin="5dp">
 
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Destination"
-        android:id="@+id/textViewDestination"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp" />
+        <AutoCompleteTextView
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:inputType="textPostalAddress"
+            android:ems="10"
+            android:hint="Lieu de départ"
+            android:id="@+id/editTextDepart"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="false" />
 
-    <EditText
+        <ImageButton
+            android:layout_width="37dp"
+            android:layout_height="37dp"
+            android:id="@+id/locationDepart"
+            android:layout_gravity="right"
+            android:layout_weight="0.05"
+            android:background="@drawable/location"
+
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true" />
+    </RelativeLayout>
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPostalAddress"
-        android:ems="10"
-        android:id="@+id/editTextDestination"
-        android:layout_gravity="center_horizontal" />
+        android:layout_height="57dp"
+        android:layout_marginTop="15dp">
 
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Date"
-        android:id="@+id/textViewDate"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp" />
+        <AutoCompleteTextView
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:inputType="textPostalAddress"
+            android:hint="Lieu d'arrivée"
+            android:ems="10"
+            android:id="@+id/editTextDestination"
+            android:layout_gravity="center_horizontal"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true" />
+
+        <ImageButton
+            android:layout_width="37dp"
+            android:layout_height="37dp"
+            android:id="@+id/locationArrive"
+            android:layout_gravity="right"
+            android:background="@drawable/location"
+            android:layout_alignBottom="@+id/editTextDestination"
+            android:layout_alignParentEnd="true" />
+    </RelativeLayout>
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="date"
         android:ems="10"
+        android:hint="Date"
         android:id="@+id/editTextDate"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:hint="Nombre de passager"
+        android:ems="10"
+        android:id="@+id/nbPassager"
+        android:layout_marginTop="20dp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:hint="Détour maximum en KM/H"
+        android:id="@+id/editDetour"
+        android:layout_marginTop="20dp" />
 
     <Button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Valider"
         android:id="@+id/buttonValider"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="30dp" />
 
 </LinearLayout>

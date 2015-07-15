@@ -33,7 +33,7 @@ import java.util.Locale;
 
 import fr.itescia.blablasam.bdd.SearchTrajet;
 
-public class SearchActivity extends Fragment implements GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, View.OnClickListener {
+public class SearchFragment extends Fragment implements GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, View.OnClickListener {
 
     //TODO Renommer la classe en SearchFragment
     //Gestion de la date du trajet

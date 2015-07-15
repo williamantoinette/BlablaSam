@@ -4,7 +4,7 @@ package fr.itescia.blablasam.bdd;
  * Classe Adresse
  */
 public class Adresse {
-    private int _id;
+    private int id;
     private String rue;
     private String codePostal;
     private String ville;
@@ -26,7 +26,7 @@ public class Adresse {
      * @param pays
      */
     public Adresse(int id, String rue, String codePostal, String ville, String pays){
-        this._id = id;
+        this.id = id;
         this.rue = rue;
         this.codePostal = codePostal;
         this.ville = ville;
@@ -35,11 +35,11 @@ public class Adresse {
 
     // Getter - Setter=
     public int get_id() {
-        return _id;
+        return id;
     }
 
-    public void set_id(Integer _id) {
-        this._id = _id;
+    public void set_id(Integer id) {
+        this.id = id;
     }
 
 
