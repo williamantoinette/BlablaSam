@@ -28,5 +28,8 @@
     <string name="lieu_boite">Lieu de la boite de nuit</string>
     <string name="ville_retour">Ville de retour</string>
     <string name="titre_rechercher_sam">Rechercher un SAM</string>
+    <string name="nombre_passagers">Nombre de passager</string>
+    <string name="detour">Détour maximum en KM/H</string>
+
 
 </resources>

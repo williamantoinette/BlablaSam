@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Proposer un trajet"
+        android:text="@string/proposer_trajet"
         android:id="@+id/textView"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="20dp" />
@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:inputType="textPostalAddress"
             android:ems="10"
-            android:hint="Lieu de départ"
+            android:hint="@string/depart"
             android:id="@+id/editTextDepart"
             android:layout_alignParentStart="true"
             android:layout_alignParentBottom="true"
@@ -52,7 +52,7 @@
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:inputType="textPostalAddress"
-            android:hint="Lieu d'arrivée"
+            android:hint="@string/destination"
             android:ems="10"
             android:id="@+id/editTextDestination"
             android:layout_gravity="center_horizontal"
@@ -74,7 +74,7 @@
         android:layout_height="wrap_content"
         android:inputType="date"
         android:ems="10"
-        android:hint="Date"
+        android:hint="@string/selectionDate"
         android:id="@+id/editTextDate"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp" />
@@ -83,7 +83,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="number"
-        android:hint="Nombre de passager"
+        android:hint="@string/nombre_passagers"
         android:ems="10"
         android:id="@+id/nbPassager"
         android:layout_marginTop="20dp" />
@@ -93,14 +93,14 @@
         android:layout_height="wrap_content"
         android:inputType="number"
         android:ems="10"
-        android:hint="Détour maximum en KM/H"
+        android:hint="@string/detour"
         android:id="@+id/editDetour"
         android:layout_marginTop="20dp" />
 
     <Button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Valider"
+        android:text="@string/valider"
         android:id="@+id/buttonValider"
         android:layout_marginTop="30dp" />
 

@@ -2,6 +2,7 @@ package fr.itescia.blablasam.blablasam;
 
 import android.app.DatePickerDialog;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -17,15 +18,9 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 import android.content.Intent;
-import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.text.InputType;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -46,11 +41,9 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 
 import java.util.List;
-import java.util.Locale;
 
 import fr.itescia.blablasam.bdd.Adresse;
 import fr.itescia.blablasam.bdd.GPS;
-import fr.itescia.blablasam.bdd.Inscription;
 import fr.itescia.blablasam.bdd.Server;
 import fr.itescia.blablasam.bdd.Trajet;
 import fr.itescia.blablasam.bdd.Utilisateur;
@@ -58,7 +51,7 @@ import fr.itescia.blablasam.bdd.Utilisateur;
 /**
  * Gestion de la proposition des trajets
  */
-public class ProposerTrajetFragment extends Fragment implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
+public class ProposerTrajetFragment extends Fragment implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks{
 
     private EditText editTextDate;
     private EditText editTextDestination;
@@ -70,12 +63,10 @@ public class ProposerTrajetFragment extends Fragment implements View.OnClickList
     private AutoCompleteTextView mAutocompleteDestination;
     private GoogleApiClient mGoogleApiClient;
     private PlaceArrayAdapter mPlaceArrayAdapter;
-    private static final LatLngBounds BOUND_PARIS = new LatLngBounds(
-            new LatLng(48.856614, 2.0), new LatLng(49, 2.5));
+    private static final LatLngBounds BOUND_PARIS = new LatLngBounds(new LatLng(48.856614, 2.0), new LatLng(49, 2.5));
 
     private static final String LOG_TAG = "ProposerTrajetFragment";
     private static final int GOOGLE_API_CLIENT_ID = 1;
-
     //endregion
 
     private Utilisateur currentUser;
@@ -137,8 +128,6 @@ public class ProposerTrajetFragment extends Fragment implements View.OnClickList
             mAutocompleteDepart.setAdapter(mPlaceArrayAdapter);
 
 
-
-
         // Auto complétion sur le champ arrivée
         mAutocompleteDestination = (AutoCompleteTextView) rootView.findViewById(R.id.editTextDestination);
         mAutocompleteDestination.setThreshold(3);
@@ -151,9 +140,9 @@ public class ProposerTrajetFragment extends Fragment implements View.OnClickList
 
         //endregion PARTI PARTIE i
         currentUser = Utilisateur.getCurrentUser();
-        mAutocompleteDestination.setText(currentUser.getAdresse().getRue() + ","+
-                                        currentUser.getAdresse().getVille() + ","+
-                                        currentUser.getAdresse().getPays() );
+        mAutocompleteDestination.setText(currentUser.getAdresse().getRue() + "," +
+                currentUser.getAdresse().getVille() + "," +
+                currentUser.getAdresse().getPays());
 
         trajet.setConducteur(currentUser);
         trajet.setDestination(currentUser.getAdresse());
@@ -180,11 +169,12 @@ public class ProposerTrajetFragment extends Fragment implements View.OnClickList
     public void onClick(View v) {
         try {
             switch (v.getId()) {
-                case R.id.buttonValider:
 
-                    // Ajout event dans agenda
-                    this.valider();
-                    
+                case R.id.editTextDate:
+                    datePickerDialog.show();
+                    break;
+
+                case R.id.buttonValider:
                     Adresse depart = new Adresse();
                     // On affecte l'adresse de départ
                     String[] adr_elem = mAutocompleteDepart.getText().toString().split(",");
@@ -208,10 +198,19 @@ public class ProposerTrajetFragment extends Fragment implements View.OnClickList
                     trajet.setDepart(depart);
                     trajet.setNombrePlace(Integer.parseInt(nbPassager.getText().toString()));
                     trajet.setDetourMax(Integer.parseInt(detourMax.getText().toString()));
+
+                    Toast.makeText(getActivity(), "Création du trajet ok", Toast.LENGTH_SHORT).show();
+
+                    Fragment fragment = new MesTrajetsFragment();
+                    FragmentManager fragmentManager = getFragmentManager();
+                    fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).commit();
+
+                    Toast.makeText(getActivity(), "Création d'un événement dans l'agenda", Toast.LENGTH_SHORT).show();
+                    valider();
+
                     break;
 
                 case R.id.locationDepart:
-
                     if (gps.canGetLocation()) {
                         maPosition = gps.getLocation();
                         Geocoder geo = new Geocoder(this.getActivity(), Locale.getDefault());
@@ -226,7 +225,6 @@ public class ProposerTrajetFragment extends Fragment implements View.OnClickList
                     break;
 
                 case R.id.locationArrive:
-
                     if (gps.canGetLocation()) {
                         maPosition = gps.getLocation();
                         Geocoder geo = new Geocoder(this.getActivity(), Locale.getDefault());
@@ -320,10 +318,7 @@ public class ProposerTrajetFragment extends Fragment implements View.OnClickList
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
         Log.e(LOG_TAG, "Google Places API connection failed with error code: " + connectionResult.getErrorCode());
-
-        Toast.makeText(this.getActivity(),
-                "Google Places API connection failed with error code:" + connectionResult.getErrorCode(),
-                Toast.LENGTH_LONG).show();
+        Toast.makeText(this.getActivity(), "Google Places API connection failed with error code:" + connectionResult.getErrorCode(), Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -339,7 +334,6 @@ public class ProposerTrajetFragment extends Fragment implements View.OnClickList
      */
     public void valider(){
 //        https://github.com/vogellacompany/codeexamples-android/blob/680a4068a9c9e4b6258c4d88d7d105ca51c8df81/de.vogella.android.calendarapi/src/de/vogella/android/calendarapi/MyCalendarActivity.java
-
         // Récupération des saisies
         String[] arrayEditTextDate = editTextDate.getText().toString().split("/");
         int day = Integer.parseInt(arrayEditTextDate[0]);
@@ -391,17 +385,22 @@ public class ProposerTrajetFragment extends Fragment implements View.OnClickList
      * Gestion du DatPicker
      */
     private void setDateTimeField() {
-        editTextDate.setOnClickListener(this);
-        Calendar newCalendar = Calendar.getInstance();
+        try{
+            editTextDate.setOnClickListener(this);
+            Calendar newCalendar = Calendar.getInstance();
 
-        datePickerDialog = new DatePickerDialog(this.getActivity(), new DatePickerDialog.OnDateSetListener() {
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                Calendar newDate = Calendar.getInstance();
-                newDate.set(year, monthOfYear, dayOfMonth);
-                editTextDate.setText(simpleDateFormat.format(newDate.getTime()));
-            }
-        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+            datePickerDialog = new DatePickerDialog(this.getActivity(), new DatePickerDialog.OnDateSetListener() {
+                public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                    Calendar newDate = Calendar.getInstance();
+                    newDate.set(year, monthOfYear, dayOfMonth);
+                    editTextDate.setText(simpleDateFormat.format(newDate.getTime()));
+                }
+            },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+
+        } catch (Exception ex){
+            System.out.println(ex.getMessage());
+        }
 
     }
-    
+
 }
