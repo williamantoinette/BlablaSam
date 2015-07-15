@@ -2,6 +2,20 @@ package fr.itescia.blablasam.blablasam;
 
 import android.app.DatePickerDialog;
 import android.app.Fragment;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.Toast;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.CalendarContract;
@@ -19,15 +33,63 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.PlaceBuffer;
+import com.google.android.gms.location.places.Places;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+
+import java.util.List;
+import java.util.Locale;
+
+import fr.itescia.blablasam.bdd.Adresse;
+import fr.itescia.blablasam.bdd.GPS;
+import fr.itescia.blablasam.bdd.Inscription;
+import fr.itescia.blablasam.bdd.Server;
+import fr.itescia.blablasam.bdd.Trajet;
+import fr.itescia.blablasam.bdd.Utilisateur;
+
 /**
  * Gestion de la proposition des trajets
  */
-public class ProposerTrajetFragment extends Fragment implements View.OnClickListener{
+public class ProposerTrajetFragment extends Fragment implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks
 
     private EditText editTextDate;
     private EditText editTextDestination;
     private DatePickerDialog datePickerDialog;
     private SimpleDateFormat simpleDateFormat;
+
+    //region Champs Autocomplétion
+    private AutoCompleteTextView mAutocompleteDepart;
+    private AutoCompleteTextView mAutocompleteDestination;
+    private GoogleApiClient mGoogleApiClient;
+    private PlaceArrayAdapter mPlaceArrayAdapter;
+    private static final LatLngBounds BOUND_PARIS = new LatLngBounds(
+            new LatLng(48.856614, 2.0), new LatLng(49, 2.5));
+
+    private static final String LOG_TAG = "ProposerTrajetFragment";
+    private static final int GOOGLE_API_CLIENT_ID = 1;
+
+    //endregion
+
+    private Utilisateur currentUser;
+    private Trajet trajet = new Trajet();
+
+    //Champs de saisie
+    private EditText dateTrajet;
+    private EditText nbPassager;
+    private EditText detourMax;
+
+    private ImageButton locationDepart;
+    private ImageButton locationArrive;
+    private GPS gps;
+    private Location maPosition;
 
     /**
      * Initialisation du fragment
@@ -40,6 +102,61 @@ public class ProposerTrajetFragment extends Fragment implements View.OnClickList
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.activity_proposertrajet, container, false);
 
+        Button button = (Button)rootView.findViewById(R.id.buttonValider);
+        button.setOnClickListener(this);
+
+        gps = new GPS(this.getActivity());
+
+        dateTrajet = (EditText)rootView.findViewById(R.id.dateTrajet);
+        nbPassager = (EditText)rootView.findViewById(R.id.nbPassager);
+        detourMax = (EditText)rootView.findViewById(R.id.editDetour);
+        locationDepart = (ImageButton)rootView.findViewById(R.id.locationDepart);
+        locationArrive = (ImageButton)rootView.findViewById(R.id.locationArrive);
+
+        locationDepart.setOnClickListener(this);
+        locationArrive.setOnClickListener(this);
+
+        //region AUTOCOMPLETION partie 1
+         /* Google Auto complete API */
+        mGoogleApiClient = new GoogleApiClient.Builder(this.getActivity())
+                .addApi(Places.GEO_DATA_API)
+                        //.enableAutoManage(this.getActivity(), GOOGLE_API_CLIENT_ID, this)
+                .addConnectionCallbacks(this)
+                .build();
+        mGoogleApiClient.connect();
+
+
+            //Auto complétion sur le champ départ
+            mAutocompleteDepart = (AutoCompleteTextView) rootView.findViewById(R.id.editTextDepart);
+
+            mAutocompleteDepart.setThreshold(3);
+
+            mAutocompleteDepart.setOnItemClickListener(mAutocompleteClickListener);
+            mPlaceArrayAdapter = new PlaceArrayAdapter(this.getActivity(), android.R.layout.simple_list_item_1,
+                    BOUND_PARIS, null);
+            mAutocompleteDepart.setAdapter(mPlaceArrayAdapter);
+
+
+
+
+        // Auto complétion sur le champ arrivée
+        mAutocompleteDestination = (AutoCompleteTextView) rootView.findViewById(R.id.editTextDestination);
+        mAutocompleteDestination.setThreshold(3);
+
+        mAutocompleteDestination.setOnItemClickListener(mAutocompleteClickListener);
+        mAutocompleteDestination.setAdapter(mPlaceArrayAdapter);
+
+
+        /* Fin auto complete API */
+
+        //endregion PARTI PARTIE i
+        currentUser = Utilisateur.getCurrentUser();
+        mAutocompleteDestination.setText(currentUser.getAdresse().getRue() + ","+
+                                        currentUser.getAdresse().getVille() + ","+
+                                        currentUser.getAdresse().getPays() );
+
+        trajet.setConducteur(currentUser);
+        trajet.setDestination(currentUser.getAdresse());
         Button buttonValider = (Button)rootView.findViewById(R.id.buttonValider);
         buttonValider.setOnClickListener(this);
 
@@ -61,20 +178,162 @@ public class ProposerTrajetFragment extends Fragment implements View.OnClickList
      */
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        try {
+            switch (v.getId()) {
+                case R.id.buttonValider:
 
-            case R.id.buttonValider:
-                this.valider();
-                break;
+                    // Ajout event dans agenda
+                    this.valider();
+                    
+                    Adresse depart = new Adresse();
+                    // On affecte l'adresse de départ
+                    String[] adr_elem = mAutocompleteDepart.getText().toString().split(",");
+                    switch (adr_elem.length) {
+                        case 3:
+                            depart.setRue(adr_elem[0]);
+                            depart.setVille(adr_elem[1]);
+                            depart.setPays(adr_elem[2]);
+                            break;
+                        
+                        case 4:
+                            depart.setRue(adr_elem[1]);
+                            depart.setVille(adr_elem[2]);
+                            depart.setPays(adr_elem[3]);
+                            break;
+                        
+                        default:
+                            break;
+                    }
 
-            case R.id.editTextDate:
-                datePickerDialog.show();
+                    trajet.setDepart(depart);
+                    trajet.setNombrePlace(Integer.parseInt(nbPassager.getText().toString()));
+                    trajet.setDetourMax(Integer.parseInt(detourMax.getText().toString()));
+                    break;
 
-            default:
-                break;
+                case R.id.locationDepart:
+
+                    if (gps.canGetLocation()) {
+                        maPosition = gps.getLocation();
+                        Geocoder geo = new Geocoder(this.getActivity(), Locale.getDefault());
+                        List<Address> addresses =
+                                geo.getFromLocation(gps.getLatitude(), gps.getLongitude(), 1);
+                        mAutocompleteDepart.setText(addresses.get(0).getAddressLine(0) +"," + addresses.get(0).getLocality()+ "," + addresses.get(0).getCountryName());
+                        // maPosition.getExtras().
+                        //mAutocompleteDepart.setText(gps.getLocation());
+                    } else {
+                        gps.showSettingsAlert();
+                    }
+                    break;
+
+                case R.id.locationArrive:
+
+                    if (gps.canGetLocation()) {
+                        maPosition = gps.getLocation();
+                        Geocoder geo = new Geocoder(this.getActivity(), Locale.getDefault());
+                        List<Address> addresses =
+                                geo.getFromLocation(gps.getLatitude(), gps.getLongitude(), 1);
+                        mAutocompleteDestination.setText(addresses.get(0).getAddressLine(0) +"," + addresses.get(0).getLocality()+ "," + addresses.get(0).getCountryName());
+                        // maPosition.getExtras().
+                        //mAutocompleteDepart.setText(gps.getLocation());
+                    } else {
+                        gps.showSettingsAlert();
+                    }
+                    break;
+                
+                default:
+                    break;
+            }
+
+        }
+        catch(Exception ex) {
+
         }
 
+        Thread thread_trajet = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Gson serialiseur = new Gson();
+                JsonElement JSONTrajet = serialiseur.toJsonTree(trajet);
+
+                if(Server.sendJSONPost("/trajet",JSONTrajet) == "true"){
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getActivity(), "Trajet proposé avec succès", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                }
+
+            }
+        });
+        thread_trajet.start();
     }
+
+
+
+    //region AUTOCOMPLETION partie 2
+    private AdapterView.OnItemClickListener mAutocompleteClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            final PlaceArrayAdapter.PlaceAutocomplete item = mPlaceArrayAdapter.getItem(position);
+            final String placeId = String.valueOf(item.placeId);
+            PendingResult<PlaceBuffer> placeResult = Places.GeoDataApi
+                    .getPlaceById(mGoogleApiClient, placeId);
+            placeResult.setResultCallback(mUpdatePlaceDetailsCallback);
+        }
+    };
+
+    private ResultCallback<PlaceBuffer> mUpdatePlaceDetailsCallback = new ResultCallback<PlaceBuffer>() {
+        @Override
+        public void onResult(PlaceBuffer places) {
+            if (!places.getStatus().isSuccess()) {
+                Log.e(LOG_TAG, "Place query did not complete. Error: " + places.getStatus().toString());
+                return;
+            }
+            // Selecting the first object buffer.
+            final Place place = places.get(0);
+            CharSequence attributions = places.getAttributions();
+
+            String[] adress_element = place.getAddress().toString().split(",");
+
+            if(place.getLocale().toString().equals(Locale.FRANCE.toString().toLowerCase())) {
+                for (String e : adress_element) {
+                    System.out.println(e);
+                }
+            }
+            else {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getActivity(), "Internationalisation coming soon", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        }
+    };
+
+    @Override
+    public void onConnected(Bundle bundle) {
+        mPlaceArrayAdapter.setGoogleApiClient(mGoogleApiClient);
+        Log.i(LOG_TAG, "Google Places API connected.");
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+        Log.e(LOG_TAG, "Google Places API connection failed with error code: " + connectionResult.getErrorCode());
+
+        Toast.makeText(this.getActivity(),
+                "Google Places API connection failed with error code:" + connectionResult.getErrorCode(),
+                Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+        mPlaceArrayAdapter.setGoogleApiClient(null);
+        Log.e(LOG_TAG, "Google Places API connection suspended.");
+    }
+    //endregion
 
 
     /**
@@ -146,4 +405,5 @@ public class ProposerTrajetFragment extends Fragment implements View.OnClickList
         },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
 
     }
+    
 }

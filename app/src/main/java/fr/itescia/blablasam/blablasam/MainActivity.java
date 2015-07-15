@@ -7,6 +7,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
@@ -16,6 +17,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import fr.itescia.blablasam.bdd.GPS;
+import fr.itescia.blablasam.bdd.Utilisateur;
 
 /**
  * Main
@@ -94,6 +99,7 @@ public class MainActivity extends Activity {
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons.getResourceId(3, -1)));
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[4], navMenuIcons.getResourceId(4, -1)));
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1)));
+        navDrawerItems.add(new NavDrawerItem(navMenuTitles[6], navMenuIcons.getResourceId(6, -1)));
 
         // Recycle the typed array
         navMenuIcons.recycle();
@@ -184,21 +190,57 @@ public class MainActivity extends Activity {
             case 0:
                 fragment = new HomeFragment();
                 break;
+            
             case 1:
                 fragment = new ConnexionFragment();
                 break;
+            
             case 2:
 //                fragment = new EspacePersoFragment();
                 break;
+            
             case 3:
                 fragment = new MesTrajetsFragment();
                 break;
+            
             case 4:
-                fragment = new SearchActivity();
+                fragment = new SearchFragment();
                 break;
+            
             case 5:
                 fragment = new ProposerTrajetFragment();
+                if(Utilisateur.isLogged()) {
+                    GPS gps = new GPS(this);
+                    if (gps.canGetLocation()) {
+                /*   // Toast.makeText(this,"Lat : " + gps.getLatitude(), Toast.LENGTH_SHORT).show();
+                     Location ici = gps.getLocation();
+                    System.out.println(gps.getLatitude());
+                    System.out.println(gps.getLongitude());
+                    Location labas = new Location("");
+                    labas.setLatitude(49.03561699999999);
+                    labas.setLongitude(2.0603250000000344);
+
+                    Toast.makeText(this,"Votre destination se trouve à : + " + ( ici.distanceTo(labas) / 1000 ) + "KMS", Toast.LENGTH_SHORT).show();*/
+
+                    } else {
+                        gps.showSettingsAlert();
+                    }
+                }
+                else{
+
+                    Toast.makeText(this,"Vous devez être connecté pour proposer un trajet", Toast.LENGTH_LONG).show();
+                    fragment = new ConnexionFragment();
+                }
                 break;
+
+            case 6 :
+                if(Utilisateur.isLogged()){
+                    Toast.makeText(this,"Vous avez été déconnecté", Toast.LENGTH_SHORT).show();
+                    Utilisateur.Deconnexion();
+                }
+                fragment = new ConnexionFragment();
+                break;
+            
             default:
                 break;
         }

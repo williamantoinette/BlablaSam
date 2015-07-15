@@ -12,7 +12,7 @@ import com.google.gson.*;
 
 import fr.itescia.blablasam.blablasam.ConnexionFragment;
 import fr.itescia.blablasam.blablasam.R;
-import fr.itescia.blablasam.blablasam.SearchActivity;
+import fr.itescia.blablasam.blablasam.SearchFragment;
 import fr.itescia.blablasam.exception.ServerException;
 
 public class Authentification implements Runnable {
@@ -32,17 +32,20 @@ public class Authentification implements Runnable {
     public void run() {
         try{
 
-
-            if(Server.sendGet("/authentification","login="+this.login +"&password=" + this.password).equals("true"))
+            final String auth = Server.sendGet("/authentification","login="+this.login +"&password=" + this.password);
+            if(!auth.equals("false"))
             {
 
                     activity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             Toast.makeText(activity, "Connexion OK ", Toast.LENGTH_LONG).show();
-                            Fragment fragment = new SearchActivity();
+                            Fragment fragment = new SearchFragment();
+
 
                             if(fragment!=null) {
+
+                                Utilisateur.Connexion(auth);
                                 FragmentManager fragmentManager = activity.getFragmentManager();
                                 fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).commit();
                             }
