@@ -58,7 +58,7 @@ import fr.itescia.blablasam.bdd.Utilisateur;
 /**
  * Gestion de la proposition des trajets
  */
-public class ProposerTrajetFragment extends Fragment implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks
+public class ProposerTrajetFragment extends Fragment implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
 
     private EditText editTextDate;
     private EditText editTextDestination;
@@ -269,8 +269,6 @@ public class ProposerTrajetFragment extends Fragment implements View.OnClickList
         });
         thread_trajet.start();
     }
-
-
 
     //region AUTOCOMPLETION partie 2
     private AdapterView.OnItemClickListener mAutocompleteClickListener = new AdapterView.OnItemClickListener() {
