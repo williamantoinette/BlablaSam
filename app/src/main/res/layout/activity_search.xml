@@ -34,9 +34,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/villeArrive"
         android:hint="@string/ville_retour"
-        android:layout_marginTop="115dp"
-        android:layout_below="@+id/dateTrajet"
-        android:layout_alignParentStart="true"         />
+        android:layout_below="@+id/HeureDebut"
+        android:layout_alignParentEnd="true" />
 
     <EditText
         android:layout_width="fill_parent"
@@ -60,7 +59,7 @@
         android:layout_alignParentStart="true"
         android:layout_marginTop="10dp" />
 
-    <EditText
+ <!--   <EditText
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:inputType="time"
@@ -69,7 +68,7 @@
         android:layout_below="@+id/HeureDebut"
         android:layout_alignParentStart="true"
         android:layout_marginTop="10dp"
-        android:text="@string/heure_retour" />
+        android:text="@string/heure_retour" />-->
 
     <Button
         android:layout_width="fill_parent"

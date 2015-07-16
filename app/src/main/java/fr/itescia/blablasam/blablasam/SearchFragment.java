@@ -51,7 +51,11 @@ public class SearchFragment extends Fragment implements GoogleApiClient.OnConnec
 
     private static final String LOG_TAG = "SearchActivity";
     private static final int GOOGLE_API_CLIENT_ID = 0;
+
+    //Auto complétion lieu de départ
     private AutoCompleteTextView mAutocompleteTextView;
+    //Auto complétion lieu d'arrivée
+    private AutoCompleteTextView  mAutocompleteArrive;
 
     private GoogleApiClient mGoogleApiClient;
     private PlaceArrayAdapter mPlaceArrayAdapter;
@@ -73,6 +77,7 @@ public class SearchFragment extends Fragment implements GoogleApiClient.OnConnec
         dateFormatter = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
         heureFormatter = new SimpleDateFormat("hh:mm", Locale.FRANCE);
 
+        //region Autocomplétion
         /* Google Auto complete API */
         mGoogleApiClient = new GoogleApiClient.Builder(this.getActivity())
                 .addApi(Places.GEO_DATA_API)
@@ -80,19 +85,30 @@ public class SearchFragment extends Fragment implements GoogleApiClient.OnConnec
                 .addConnectionCallbacks(this)
                 .build();
         mGoogleApiClient.connect();
+
+        //Auto complétion
         mAutocompleteTextView = (AutoCompleteTextView) rootView.findViewById(R.id.LieuTrajet);
         mAutocompleteTextView.setThreshold(3);
-
         mAutocompleteTextView.setOnItemClickListener(mAutocompleteClickListener);
+
+        mAutocompleteArrive = (AutoCompleteTextView)rootView.findViewById(R.id.villeArrive);
+        mAutocompleteArrive.setThreshold(3);
+        mAutocompleteArrive.setOnItemClickListener(mAutocompleteClickListener);
+
+
+
+
         mPlaceArrayAdapter = new PlaceArrayAdapter(this.getActivity(), android.R.layout.simple_list_item_1,
                 BOUND_PARIS, null);
         mAutocompleteTextView.setAdapter(mPlaceArrayAdapter);
+        mAutocompleteArrive.setAdapter(mPlaceArrayAdapter);
 
 
         /* Fin auto complete API */
+        //endregion
 
 
-        lieuFete = (EditText) rootView.findViewById(R.id.LieuTrajet);
+       // lieuFete = (EditText) rootView.findViewById(R.id.LieuTrajet);
 
         dateTxtEdit = (EditText) rootView.findViewById(R.id.dateTrajet);
         dateTxtEdit.setInputType(InputType.TYPE_NULL);
@@ -100,7 +116,7 @@ public class SearchFragment extends Fragment implements GoogleApiClient.OnConnec
         heureDebutTXT = (EditText) rootView.findViewById(R.id.HeureDebut);
         heureDebutTXT.setInputType(InputType.TYPE_NULL);
 
-        heureFinTXT = (EditText) rootView.findViewById(R.id.HeureFin);
+        heureFinTXT = (EditText) rootView.findViewById(R.id.HeureDebut);
         heureFinTXT.setInputType(InputType.TYPE_NULL);
 
         villeArrive = (EditText) rootView.findViewById(R.id.villeArrive);
@@ -114,6 +130,7 @@ public class SearchFragment extends Fragment implements GoogleApiClient.OnConnec
         return rootView;
     }
 
+    //region autocomplétion partie 2
     private AdapterView.OnItemClickListener mAutocompleteClickListener
             = new AdapterView.OnItemClickListener() {
         @Override
@@ -158,6 +175,7 @@ public class SearchFragment extends Fragment implements GoogleApiClient.OnConnec
         }
     };
 
+    //endregion
     @Override
     public void onConnected(Bundle bundle) {
         mPlaceArrayAdapter.setGoogleApiClient(mGoogleApiClient);
@@ -234,14 +252,68 @@ public class SearchFragment extends Fragment implements GoogleApiClient.OnConnec
             //heureDebut.show();
         }
 
-        if (v.getId() == R.id.HeureFin) {
+        if (v.getId() == R.id.HeureDebut) {
             heureFin.show();
         }
         if (v.getId() == R.id.btnRecherche) {
             try
             {
+                String villeDepart = "";
+                String villeArrivee = "";
+
+                String [] depart_element = mAutocompleteTextView.getText().toString().split(",");
+                String [] arrive_element = mAutocompleteArrive.getText().toString().split(",");
+
+                //region recuperation ville départ
+                switch (depart_element.length)
+                {
+                    case 3 :
+                        villeDepart = depart_element[1].trim();
+                        break;
+                    case 4 :
+                        villeDepart = depart_element[2].trim();
+                        break;
+                    default:
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getActivity(),"Adresse incorrecte",Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                }
+                //endregion
+
+                //region recuperation ville arrive
+                switch (arrive_element.length)
+                {
+                    case 3 :
+                        villeArrivee = arrive_element[1].trim();
+                        break;
+                    case 4 :
+                        villeArrivee = arrive_element[2].trim();
+                        break;
+                    default:
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getActivity(),"Adresse incorrecte",Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        break;
+
+                }
+
+                //endregion
                 System.out.println("Recherche d'un trajet");
-                SearchTrajet trajet = new SearchTrajet("", "", "", "");
+                SearchTrajet trajet = new SearchTrajet();
+
+                trajet.setDepartTrajet(villeDepart);
+                trajet.setDestinationTrajet(villeArrivee);
+                trajet.setDateTrajet(dateTxtEdit.getText().toString());
+                trajet.setHeureFin(heureDebutTXT.getText().toString());
+
+
                 Thread thread_search = new Thread(trajet);
                 thread_search.start();
             }

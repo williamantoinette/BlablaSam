@@ -23,10 +23,10 @@
     <string name="valider">Valider</string>
 
 
-    <string name="heure_depart">Heure de début estimée</string>
+    <string name="heure_depart">Heure de départ souhaitée</string>
     <string name="heure_retour">Heure de fin estimée</string>
     <string name="lieu_boite">Lieu de la boite de nuit</string>
-    <string name="ville_retour">Ville de retour</string>
+    <string name="ville_retour">Adresse de retour</string>
     <string name="titre_rechercher_sam">Rechercher un SAM</string>
     <string name="nombre_passagers">Nombre de passager</string>
     <string name="detour">Détour maximum en KM/H</string>
