@@ -316,10 +316,12 @@ public class SearchFragment extends Fragment implements GoogleApiClient.OnConnec
 
                 Thread thread_search = new Thread(trajet);
                 thread_search.start();
+
+                System.out.println("Nombre de trajets : "+ trajet.getTrajets().length);
             }
             catch (Exception ex)
             {
-                System.out.println(ex.getMessage());
+                System.out.println("Erreur : " +ex.getMessage());
             }
 
         }

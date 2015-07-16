@@ -32,6 +32,10 @@
     <string name="detour">Détour maximum en KM/H</string>
 
     <string name="mes_trajets">Mes trajets</string>
+    <string name="trajet_trouve">Trajet(s) trouvé(s)</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

@@ -197,6 +197,7 @@ public class MainActivity extends Activity {
             
             case 2:
 //                fragment = new EspacePersoFragment();
+                fragment = new ListeTrajetFragment();
                 break;
             
             case 3:
