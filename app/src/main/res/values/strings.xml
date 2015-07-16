@@ -31,5 +31,7 @@
     <string name="nombre_passagers">Nombre de passager</string>
     <string name="detour">Détour maximum en KM/H</string>
 
+    <string name="mes_trajets">Mes trajets</string>
+
 
 </resources>

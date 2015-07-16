@@ -12,7 +12,7 @@ public class Trajet {
     private Adresse destination;
     private Utilisateur conducteur;
     private List<Utilisateur> passagers;
-    private  int nombrePlace;
+    private int nombrePlace;
     private int nombrePlaceRestante;
     private int detourMax;
     private Date Date;
@@ -22,6 +22,20 @@ public class Trajet {
      */
     public Trajet(){
 
+    }
+
+    /**
+     * Constructeur avec arguments (sans passager ni conducteur)
+     */
+    public Trajet(Integer id, Adresse depart, Adresse destination){
+        this._id = id;
+        this.depart = depart;
+        this.destination = destination;
+    }
+
+    @Override
+    public String toString() {
+        return this._id + " : de " + this.depart.getVille() + " à " + this.destination.getVille();
     }
 
     /**
