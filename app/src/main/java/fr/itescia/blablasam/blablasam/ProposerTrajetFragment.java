@@ -185,7 +185,7 @@ public class ProposerTrajetFragment extends Fragment implements View.OnClickList
                 case R.id.editTextHeureDepart:
                     timePickerDialog.show();
                     break;
-                
+
                 case R.id.buttonValider:
                     Adresse depart = new Adresse();
                     // On affecte l'adresse de départ
