@@ -2,8 +2,10 @@ package fr.itescia.blablasam.blablasam;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,26 +14,19 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import fr.itescia.blablasam.bdd.Adresse;
 import fr.itescia.blablasam.bdd.Trajet;
 
-/**
- * Created by William- on 16/07/2015.
- */
 public class ListeTrajetFragment extends Fragment {
 
     private DialogInterface.OnClickListener dialogClickListener;
     private ListView listViewTrajet;
-
+    private String numeroTelephone = "0664141739";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_liste_trajet, container, false);
 
         listViewTrajet = (ListView) rootView.findViewById(R.id.listeTrajet);
-
-        // Tableau pour afficher des valeurs dans la listView
-        //TODO remplacer cet objet par la requête en BDD
 
         try {
             Bundle bundle = this.getArguments();
@@ -78,8 +73,15 @@ public class ListeTrajetFragment extends Fragment {
             public void onClick(DialogInterface dialog, int which) {
                 switch (which){
                     case DialogInterface.BUTTON_POSITIVE:
+                        // Envoi d'un SMS
+                        SmsManager smsManager = SmsManager.getDefault();
+                        smsManager.sendTextMessage(numeroTelephone, null, "Une nouvelle personne s'est inscrite sur votre trajet.", null, null);
+                        Toast.makeText(getActivity(), "Inscription ok", Toast.LENGTH_SHORT).show();
 
-                        Toast.makeText(getActivity(), "Oui", Toast.LENGTH_SHORT).show();
+                        // Redirection
+                        Fragment fragment = new MesTrajetsFragment();
+                        FragmentManager fragmentManager = getFragmentManager();
+                        fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).commit();
                         break;
 
                     case DialogInterface.BUTTON_NEGATIVE:
