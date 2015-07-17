@@ -75,7 +75,7 @@ public class ListeTrajetFragment extends Fragment {
                     case DialogInterface.BUTTON_POSITIVE:
                         // Envoi d'un SMS
                         SmsManager smsManager = SmsManager.getDefault();
-                        smsManager.sendTextMessage(numeroTelephone, null, "Une nouvelle personne s'est inscrite sur votre trajet.", null, null);
+                        smsManager.sendTextMessage(numeroTelephone, null, "Bonjour, je viens de m'inscrire sur votre trajet. Vous pouvez me joindre à ce numéro.", null, null);
                         Toast.makeText(getActivity(), "Inscription ok", Toast.LENGTH_SHORT).show();
 
                         // Redirection
