@@ -1,6 +1,8 @@
 package fr.itescia.blablasam.blablasam;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +20,7 @@ import fr.itescia.blablasam.bdd.Trajet;
  */
 public class ListeTrajetFragment extends Fragment {
 
+    private DialogInterface.OnClickListener dialogClickListener;
     private ListView listViewTrajet;
 
 
@@ -29,14 +32,32 @@ public class ListeTrajetFragment extends Fragment {
 
         // Tableau pour afficher des valeurs dans la listView
         //TODO remplacer cet objet par la requête en BDD
-        Trajet[] trajets = new Trajet[]{
+
+        try {
+            Bundle bundle = this.getArguments();
+            if (bundle != null) {
+                Trajet[] trajets = (Trajet[]) bundle.getSerializable("trajets");
+                System.out.println("Récupération du bundle réussie");
+                for(int i = 0; i < trajets.length;i++)
+                {
+                    System.out.println("Elem : " + trajets[i].get_id());
+                }
+                ArrayAdapter<Trajet> adapter = new ArrayAdapter<Trajet>(getActivity().getApplicationContext(), android.R.layout.simple_list_item_1, android.R.id.text1, trajets);
+                listViewTrajet.setAdapter(adapter);
+            }
+
+        }
+        catch(Exception ex)
+        {
+            System.err.println("Bundle err  :" + ex.getMessage());
+        }
+      /*  Trajet[] trajets = new Trajet[]{
                 new Trajet(1, new Adresse(1, "Rue des sept quartiers", "78111", "Dammartin-en-Serve", "France"), new Adresse(2, "10 avenue de l'Entreprise", "95000", "Cergy", "France")),
                 new Trajet(2, new Adresse(3, "10 avenue de l'Entreprise", "95000", "Cergy", "France"), new Adresse(4, "Rue des sept quartiers", "78111", "Dammartin-en-Serve", "France"))
-        };
+    };*/
 
 
-        ArrayAdapter<Trajet> adapter = new ArrayAdapter<Trajet>(getActivity().getApplicationContext(), android.R.layout.simple_list_item_1, android.R.id.text1, trajets);
-        listViewTrajet.setAdapter(adapter);
+
 
         // On Click Listener sur la listView
         listViewTrajet.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -46,10 +67,26 @@ public class ListeTrajetFragment extends Fragment {
                 String[] splitItem = itemValue.split(":");
                 String trajetId = splitItem[0].trim();
 
-                Toast.makeText(getActivity().getApplicationContext(), "Position : " + position + "  ID trajet : " + trajetId, Toast.LENGTH_SHORT).show();
-
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setMessage("Souhaitez-vous vous inscrire pour ce trajet ?").setPositiveButton("Oui", dialogClickListener).setNegativeButton("Non", dialogClickListener).show();
             }
         });
+
+        // Boite de dialogue Oui / Non
+        dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which){
+                    case DialogInterface.BUTTON_POSITIVE:
+
+                        Toast.makeText(getActivity(), "Oui", Toast.LENGTH_SHORT).show();
+                        break;
+
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        break;
+                }
+            }
+        };
 
         return rootView;
 

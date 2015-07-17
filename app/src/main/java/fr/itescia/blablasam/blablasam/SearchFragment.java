@@ -307,6 +307,7 @@ public class SearchFragment extends Fragment implements GoogleApiClient.OnConnec
                 //endregion
                 System.out.println("Recherche d'un trajet");
                 SearchTrajet trajet = new SearchTrajet();
+                trajet.setActivity(getActivity());
 
                 trajet.setDepartTrajet(villeDepart);
                 trajet.setDestinationTrajet(villeArrivee);

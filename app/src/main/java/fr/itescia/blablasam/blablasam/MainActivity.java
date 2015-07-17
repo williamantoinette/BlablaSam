@@ -201,7 +201,14 @@ public class MainActivity extends Activity {
                 break;
             
             case 3:
-                fragment = new MesTrajetsFragment();
+                if(Utilisateur.isLogged()) {
+                    fragment = new MesTrajetsFragment();
+                }
+                else
+                {
+                    Toast.makeText(this,"Vous devez être connecté pour voir vos trajets", Toast.LENGTH_LONG).show();
+                    fragment = new ConnexionFragment();
+                }
                 break;
             
             case 4:

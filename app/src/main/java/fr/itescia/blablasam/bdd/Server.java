@@ -21,7 +21,7 @@ import fr.itescia.blablasam.exception.ServerException;
  */
 public class Server {
     private static final String USER_AGENT = "Mozilla/5.0";
-    public static String ServerIP = "http://192.168.1.13:7745/AndroidServer";
+    public static String ServerIP = "http://192.168.43.124:7745/AndroidServer";
     public static String sendGet(String uri,String parameters) throws Exception {
 
 
