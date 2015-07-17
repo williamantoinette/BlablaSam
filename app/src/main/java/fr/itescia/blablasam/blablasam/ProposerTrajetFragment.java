@@ -55,6 +55,8 @@ import fr.itescia.blablasam.bdd.Utilisateur;
  */
 public class ProposerTrajetFragment extends Fragment implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks{
 
+    private Adresse depart;
+
     private EditText editTextHeureDepart;
     private TimePickerDialog timePickerDialog;
 
@@ -187,7 +189,7 @@ public class ProposerTrajetFragment extends Fragment implements View.OnClickList
                     break;
 
                 case R.id.buttonValider:
-                    Adresse depart = new Adresse();
+                    depart = new Adresse();
                     // On affecte l'adresse de départ
                     String[] adr_elem = mAutocompleteDepart.getText().toString().split(",");
                     switch (adr_elem.length) {
@@ -218,6 +220,8 @@ public class ProposerTrajetFragment extends Fragment implements View.OnClickList
                     fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).commit();
 
                     Toast.makeText(getActivity(), "Création d'un événement dans l'agenda", Toast.LENGTH_SHORT).show();
+
+                    partager();
                     valider();
 
                     break;
@@ -278,6 +282,22 @@ public class ProposerTrajetFragment extends Fragment implements View.OnClickList
             }
         });
         thread_trajet.start();
+    }
+
+    private void partager() {
+        String msg = "Bonjour, " + trajet.getNombrePlace() + " places restantes pour un trajet de " + depart.getVille() + " à " + currentUser.getAdresse().getVille() +
+                " le " + editTextDate.getText().toString() + " à " + editTextHeureDepart.getText().toString();
+        try{
+            Intent shareIntent = new Intent();
+            shareIntent.setAction(Intent.ACTION_SEND);
+            shareIntent.setType("text/plain");
+            shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Trajet BlablaSam");
+            shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, msg);
+            getActivity().startActivity(Intent.createChooser(shareIntent, this.getString(R.string.app_name)));
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 
     //region AUTOCOMPLETION partie 2
